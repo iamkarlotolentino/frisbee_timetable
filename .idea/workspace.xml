@@ -13,6 +13,14 @@
       <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/managers/DatabaseManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/Room.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/RoomDay.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/RoomTime.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/RoomTimeslot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/RoomType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/SectionTakenSubjects.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/Student.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/Subject.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/res/sql/ddl.ini" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/res/sql/enforce.ini" afterDir="false" />
@@ -22,6 +30,7 @@
       <change afterPath="$PROJECT_DIR$/src/main/res/sql/roomtimesql.ini" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/res/sql/roomtypesql.ini" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/res/sql/sectionsql.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/sql/sectiontakensubjectssql.ini" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/res/sql/studentsql.ini" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/res/sql/subjectsql.ini" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/test/java/tolentino/DBMSectionTest.java" afterDir="false" />
@@ -34,11 +43,11 @@
       <change beforePath="$PROJECT_DIR$/frisbee.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/orm/DatabaseManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/orm/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/RoomType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/orm/RoomType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/DatabaseManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/Room.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/RoomType.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/Section.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/Section.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/orm/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/Student.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/res/db.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/db.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/res/localdb.sqlite" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/tolentino/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tolentino/AppTest.java" afterDir="false" />
@@ -99,7 +108,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/main/java/tolentino/orm/DatabaseManager.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/tolentino/managers/DatabaseManager.java" root0="SKIP_INSPECTION" />
   </component>
   <component name="IgnoredFileRootStore">
     <option name="generatedRoots">
@@ -204,7 +213,7 @@
       <workItem from="1573542771170" duration="4413000" />
       <workItem from="1573547244701" duration="608000" />
       <workItem from="1573547921106" duration="3148000" />
-      <workItem from="1573568071548" duration="1536000" />
+      <workItem from="1573568071548" duration="2614000" />
     </task>
     <servers />
   </component>

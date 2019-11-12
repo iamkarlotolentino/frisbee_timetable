@@ -1,7 +1,7 @@
 package tolentino;
 
 import org.junit.jupiter.api.*;
-import tolentino.orm.DatabaseManager;
+import tolentino.managers.DatabaseManager;
 
 import java.sql.SQLException;
 

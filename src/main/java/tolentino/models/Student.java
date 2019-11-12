@@ -1,4 +1,4 @@
-package tolentino.orm;
+package tolentino.models;
 
 public class Student {
 
@@ -6,19 +6,22 @@ public class Student {
     private String firstName;
     private String middleName;
     private String lastName;
+    private int sectionId;
 
     public Student() {
         this.id = -1;
         this.firstName = "unspecified";
         this.middleName = "unspecified";
         this.lastName = "unspecified";
+        sectionId = -1;
     }
 
-    public Student(int id, String firstName, String middleName, String lastName) {
+    public Student(int id, String firstName, String middleName, String lastName, int sectionId) {
         this.id = id;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
+        this.sectionId = sectionId;
     }
 
     public int getId() {
@@ -53,4 +56,11 @@ public class Student {
         this.lastName = lastName;
     }
 
+    public int getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(int sectionId) {
+        this.sectionId = sectionId;
+    }
 }

@@ -1,4 +1,4 @@
-package tolentino.orm;
+package tolentino.models;
 
 public class Room {
 

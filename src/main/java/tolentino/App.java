@@ -1,6 +1,6 @@
 package tolentino;
 
-import tolentino.orm.DatabaseManager;
+import tolentino.managers.DatabaseManager;
 
 /**
  * Hello world!

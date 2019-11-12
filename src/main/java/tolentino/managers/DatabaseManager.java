@@ -1,4 +1,4 @@
-package tolentino.orm;
+package tolentino.managers;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -13,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import tolentino.models.Room;
+import tolentino.models.RoomType;
 import tolentino.models.Section;
 import tolentino.models.Subject;
 
@@ -230,7 +232,7 @@ public class DatabaseManager {
             return ps.executeUpdate();
         }
         //---- End of SectionQueries
-    }   //-- End of SectionQueries
+    }   //-- End6 of SectionQueries
 
     class SubjectQueries {
         private Ini SUBJECT_INI;
@@ -359,7 +361,29 @@ public class DatabaseManager {
         }
     } //-- End of RoomQueries
 
-    class
+    class StudentQueries {
+
+    }   //-- End of StudentQueries
+
+    class RoomDayQueries {
+
+    }   //-- End of RoomDay Queries
+
+    class RoomTimeQueries {
+
+    }   //-- End of RoomTime Queries
+
+    class RoomTimeslotQueries {
+
+    }   //-- End of RoomTimeslotQueries
+
+    class RoomTypeQueries {
+
+    }   //-- End of RoomTypeQueries
+
+    class SectionTakenSubjectsQueries {
+
+    }   //-- End of SectionTakenSubjectsQueries
 
     static class LogUtils {
         public static void failLoadIni(String fileName) {
