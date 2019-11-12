@@ -1,65 +1,16 @@
-package tolentino.orm;
-
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-public class DatabaseManager {
-
-    private static DatabaseManager instance;
-
-    private Connection con = null;
-    private PreparedStatement ps = null;
-    private ResultSet res = null;
-
-    private DatabaseManager() {
-        // If not yet connected, then connect
-        if (con == null)
-            connect("src/main/res/db.properties");
-    }
-
-    // Pass the properties file URL
-    private void connect(String url) {
-
-        HikariConfig config = new HikariConfig(url);
-        HikariDataSource dataSource = new HikariDataSource(config);
-
-        try {
-            Class.forName("org.sqlite.JDBC");
-            con = dataSource.getConnection();
-
-            ps = con.prepareStatement("SELECT * FROM room;");
-            res = ps.executeQuery();
-
-//            while (res.next()) {
-//                System.out.println(res.getString("name"));
-//            }
-        } catch (SQLException | ClassNotFoundException e) {
-            con = null;
-            e.printStackTrace();
-        }
-    }
-
-    public boolean isConnected() {
-        return (con != null);
-    }
-
-    /***************************************************************************************************
+/***************************************************************************************************
      * SECTION :: FUNCTIONS
      ***************************************************************************************************/
 
-    private void createSection(Section.Entity section) throws SQLException {
+    public int createSection(Section.Entity section) throws SQLException {
         ps = con.prepareStatement(
-                "INSERT INTO section VALUES (section.name)"
+                "INSERT INTO section (name) VALUES (?)"
         );
-        ps.execute();
+        ps.setString(1, section.getName());
+        return ps.executeUpdate();
     }
 
-    private ResultSet readSectionAll() throws SQLException {
+    public ResultSet readSectionAll() throws SQLException {
         ps = con.prepareStatement(
                 "SELECT * FROM section"
         );
@@ -83,6 +34,13 @@ public class DatabaseManager {
         ps.setString(1, section.getName());
         ps.setInt(2, section.getId());
         ps.executeUpdate();
+    }
+
+    public int deleteSectionAll() throws SQLException {
+        ps = con.prepareStatement(
+                "DELETE FROM section"
+        );
+        return ps.executeUpdate();
     }
 
     private void deleteSectionById(Section.Entity section) throws SQLException {
@@ -227,10 +185,3 @@ public class DatabaseManager {
     // TODO: CRUD SUBJECT
 
     // TODO: CRUD STUDENT
-
-    public static DatabaseManager getInstance() {
-        if (instance == null)
-            instance = new DatabaseManager();
-        return instance;
-    }
-}

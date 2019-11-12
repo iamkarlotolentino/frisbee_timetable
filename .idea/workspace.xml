@@ -1,7 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="ReleaseProduct" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="a4af76c5-0f7d-4d06-9210-049103bd4779" name="Default Changelist" comment="" />
+    <list default="true" id="5e776304-05b7-4708-8457-e5127c906681" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/ReleaseProduct.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/Subject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/sql/ddl.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/sql/enforce.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/sql/roomdaysql.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/sql/roomsql.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/sql/roomtimeslotsql.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/sql/roomtimesql.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/sql/roomtypesql.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/sql/sectionsql.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/sql/studentsql.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/sql/subjectsql.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/tolentino/DBMSectionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/032a6a36-90f1-4f40-9c0a-ff672278901f.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7af57e07-d694-4a02-a6fc-a4bcaffd6d03.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frisbee.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/orm/DatabaseManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/orm/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/RoomType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/orm/RoomType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/Section.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/Section.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/orm/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/db.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/db.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/localdb.sqlite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tolentino/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tolentino/AppTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tolentino/DatabaseManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tolentino/DatabaseManagerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/db.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/localdb.sqlite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-tolentino.AppTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/tolentino.AppTest.txt" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,30 +95,42 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/tolentino/orm/DatabaseManager.java" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="C:\Workspace\GitHub Repositories\frisbee-comsoc\.idea" />
+      </set>
+    </option>
+  </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
       <MavenImportingSettings>
+        <option name="dedicatedModuleDir" value="C:\Workspace\GitHub Repositories\frisbee-comsoc" />
+        <option name="downloadDocsAutomatically" value="true" />
+        <option name="downloadSourcesAutomatically" value="true" />
         <option name="importAutomatically" value="true" />
+        <option name="jdkForImporter" value="12" />
       </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectId" id="1SsaNCe0sWOBXm7TmdAvkOyGcqt" />
+  <component name="ProjectId" id="1TNx8kk6dzDPWTAWLOQ0xs39xgm" />
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="sqlite" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/sqlite-jdbc-3.27.2.1.jar!/" />
-    <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.2" />
-  </component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\JC\IdeaProjects\frisbee\src\main\res" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\JC\IdeaProjects\frisbee\src\main\res" />
-    </key>
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/res" />
+    <property name="project.structure.last.edited" value="Problems" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.33265924" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -82,7 +144,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.DatabaseManagerTest">
+  <component name="RunManager">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="tolentino.App" />
       <module name="frisbee" />
@@ -96,41 +158,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AppTest.shouldAnswerWithTrue" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="frisbee" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="tolentino.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="tolentino" />
-      <option name="MAIN_CLASS_NAME" value="tolentino.AppTest" />
-      <option name="METHOD_NAME" value="shouldAnswerWithTrue" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="DatabaseManagerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="frisbee" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="tolentino.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="tolentino" />
-      <option name="MAIN_CLASS_NAME" value="tolentino.DatabaseManagerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.DatabaseManagerTest" />
-        <item itemvalue="JUnit.AppTest.shouldAnswerWithTrue" />
         <item itemvalue="Application.App" />
       </list>
     </recent_temporary>
@@ -139,7 +168,17 @@
     <option name="allServicesViewState">
       <serviceView>
         <treeState>
-          <expand />
+          <expand>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@5b262c82" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+            </path>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@5b262c82" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@1bad01d7" type="9fbbdea:ServiceModel$ServiceNode" />
+            </path>
+          </expand>
           <select />
         </treeState>
       </serviceView>
@@ -150,23 +189,39 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="a4af76c5-0f7d-4d06-9210-049103bd4779" name="Default Changelist" comment="" />
-      <created>1572354715045</created>
+      <changelist id="5e776304-05b7-4708-8457-e5127c906681" name="Default Changelist" comment="" />
+      <created>1573314197385</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1572354715045</updated>
-      <workItem from="1572354719498" duration="41000" />
-      <workItem from="1572400258053" duration="2017000" />
-      <workItem from="1572438631627" duration="1294000" />
-      <workItem from="1572439986004" duration="722000" />
-      <workItem from="1572493863167" duration="744000" />
-      <workItem from="1572494677855" duration="3537000" />
-      <workItem from="1572918910636" duration="5402000" />
-      <workItem from="1572962318112" duration="1550000" />
+      <updated>1573314197385</updated>
+      <workItem from="1573314203408" duration="4765000" />
+      <workItem from="1573357053684" duration="950000" />
+      <workItem from="1573380731355" duration="76000" />
+      <workItem from="1573479306117" duration="264000" />
+      <workItem from="1573483857068" duration="1187000" />
+      <workItem from="1573485450346" duration="2481000" />
+      <workItem from="1573519819907" duration="3469000" />
+      <workItem from="1573542771170" duration="4413000" />
+      <workItem from="1573547244701" duration="608000" />
+      <workItem from="1573547921106" duration="3148000" />
+      <workItem from="1573568071548" duration="1536000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
