@@ -7,59 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e776304-05b7-4708-8457-e5127c906681" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/ReleaseProduct.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/managers/DatabaseManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/Room.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/RoomDay.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/RoomTime.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/RoomTimeslot.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/RoomType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/SectionTakenSubjects.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/Student.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/Subject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/sql/ddl.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/sql/enforce.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/sql/roomdaysql.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/sql/roomsql.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/sql/roomtimeslotsql.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/sql/roomtimesql.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/sql/roomtypesql.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/sql/sectionsql.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/sql/sectiontakensubjectssql.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/sql/studentsql.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/sql/subjectsql.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/tolentino/DBMSectionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/032a6a36-90f1-4f40-9c0a-ff672278901f.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7af57e07-d694-4a02-a6fc-a4bcaffd6d03.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frisbee.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/DatabaseManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/Room.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/RoomType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/Section.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/Section.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/orm/Student.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/db.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/db.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/localdb.sqlite" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tolentino/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tolentino/AppTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tolentino/DatabaseManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tolentino/DatabaseManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/db.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/localdb.sqlite" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-tolentino.AppTest.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/tolentino.AppTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/managers/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/managers/DatabaseManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/sql/roomtimesql.ini" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/sql/roomtimesql.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/sql/sectiontakensubjectssql.ini" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/sql/sectiontakensubjectssql.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/sql/studentsql.ini" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/sql/studentsql.ini" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -214,6 +166,8 @@
       <workItem from="1573547244701" duration="608000" />
       <workItem from="1573547921106" duration="3148000" />
       <workItem from="1573568071548" duration="2614000" />
+      <workItem from="1573613045837" duration="2083000" />
+      <workItem from="1573647117311" duration="1072000" />
     </task>
     <servers />
   </component>

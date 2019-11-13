@@ -13,10 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import tolentino.models.Room;
-import tolentino.models.RoomType;
-import tolentino.models.Section;
-import tolentino.models.Subject;
+import tolentino.models.*;
 
 public class DatabaseManager {
 
@@ -362,15 +359,187 @@ public class DatabaseManager {
     } //-- End of RoomQueries
 
     class StudentQueries {
+        private Ini STUDENT_INI;
+
+        public StudentQueries() {
+            try {
+                STUDENT_INI = new Ini(new File("src/main/res/sql/studentsql.ini"));
+                LogUtils.successLoadIni("studentsql.ini");
+            } catch (IOException e) {
+                LogUtils.failLoadIni("studentsql.ini");
+            }
+        }
+
+        public int create(Student student) throws SQLException {
+            ps = con.prepareStatement(STUDENT_INI.get("create", "insert_student"));
+            ps.setString(1, student.getFirstName());
+            ps.setString(2, student.getMiddleName());
+            ps.setString(3, student.getLastName());
+            ps.setInt(4, student.getSectionId());
+            return ps.executeUpdate();
+        }
+
+        public ResultSet readAll() throws SQLException {
+            ps = con.prepareStatement(STUDENT_INI.get("read", "read_all"));
+            return ps.executeQuery();
+        }
+
+        public Student readById() throws SQLException {
+            ps = con.prepareStatement(STUDENT_INI.get("read", "read_byid"));
+            res = ps.executeQuery();
+
+            Student student = new Student();
+            while (!res.next()) {
+                student.setFirstName(res.getString("first_name"));
+                student.setMiddleName(res.getString("middle_name"));
+                student.setLastName(res.getString("last_name"));
+                student.setSectionId(res.getInt("section__fk"));
+            }
+            return student;
+        }
+
+        public ResultSet readByFirstName() throws SQLException {
+            ps = con.prepareStatement(STUDENT_INI.get("read", "read_byfirstname"));
+            return ps.executeQuery();
+        }
+
+        public ResultSet readByMiddleName() throws SQLException {
+            ps = con.prepareStatement(STUDENT_INI.get("read", "read_bymiddlename"));
+            return ps.executeQuery();
+        }
+
+        public ResultSet readByLastName() throws SQLException {
+            ps = con.prepareStatement(STUDENT_INI.get("read", "read_bylastname"));
+            return ps.executeQuery();
+        }
+
+        public int updateAllById(Student student) throws SQLException {
+            ps = con.prepareStatement(STUDENT_INI.get("update", "update_all_byid"));
+            ps.setString(1, student.getFirstName());
+            ps.setString(2, student.getMiddleName());
+            ps.setString(3, student.getLastName());
+            ps.setInt(4, student.getSectionId());
+            return ps.executeUpdate();
+        }
+
+        public int deleteAll() throws SQLException {
+            ps = con.prepareStatement(STUDENT_INI.get("delete", "delete_all"));
+            return ps.executeUpdate();
+        }
+
+        public int deleteById(int id) throws SQLException {
+            ps = con.prepareStatement(STUDENT_INI.get("delete", "delete_byid"));
+            ps.setInt(1, id);
+            return ps.executeUpdate();
+        }
 
     }   //-- End of StudentQueries
 
     class RoomDayQueries {
+        private Ini ROOMDAY_INI;
+
+        public RoomDayQueries() {
+            try {
+                ROOMDAY_INI = new Ini(new File("src/main/res/sql/roomdaysql.ini"));
+                LogUtils.successLoadIni("roomdaysql.ini");
+            } catch (IOException e) {
+                LogUtils.failLoadIni("roomdaysql.ini");
+            }
+        }
+
+        public int create(RoomDay roomDay) throws SQLException {
+            ps = con.prepareStatement(ROOMDAY_INI.get("create", "create_roomday"));
+            return ps.executeUpdate();
+        }
+
+        public ResultSet reallAll() throws SQLException {
+            ps = con.prepareStatement(ROOMDAY_INI.get("read", "read_all"));
+            return ps.executeQuery();
+        }
+
+        public RoomDay readById(int id) throws SQLException {
+            ps = con.prepareStatement(ROOMDAY_INI.get("read", "read_byid"));
+            res = ps.executeQuery();
+
+            RoomDay roomDay = new RoomDay();
+            while (!res.next()) {
+                roomDay.setId(id);
+                roomDay.setDay(res.getString("text"));
+            }
+            return roomDay;
+        }
+
+        public int updateById(RoomDay roomDay) throws SQLException {
+            ps = con.prepareStatement(ROOMDAY_INI.get("update", "update_byid"));
+            ps.setString(1, roomDay.getDay());
+            ps.setInt(2, roomDay.getId());
+            return ps.executeUpdate();
+        }
+
+        public int deleteAll() throws SQLException {
+            ps = con.prepareStatement(ROOMDAY_INI.get("delete", "delete_all"));
+            return ps.executeUpdate();
+        }
+
+        public int deleteById(int id) throws SQLException {
+            ps = con.prepareStatement(ROOMDAY_INI.get("delete", "delete_byid"));
+            ps.setInt(1, id);
+            return ps.executeUpdate();
+        }
 
     }   //-- End of RoomDay Queries
 
     class RoomTimeQueries {
+        private Ini ROOMTIME_INI;
 
+        public RoomTimeQueries() {
+            try {
+                ROOMTIME_INI = new Ini(new File("src/main/res/sql/roomtimesql.ini"));
+                LogUtils.successLoadIni("roomtimesql.ini");
+            } catch (IOException e) {
+                LogUtils.failLoadIni("roomtimesql.ini");
+            }
+        }
+
+        public int create(RoomTime roomTime) throws SQLException {
+            ps = con.prepareStatement(ROOMTIME_INI.get("create", "create_roomtime"));
+            return ps.executeUpdate();
+        }
+
+        public ResultSet readAll() throws SQLException {
+            ps = con.prepareStatement(ROOMTIME_INI.get("read", "read_all"));
+            return ps.executeQuery();
+        }
+
+        public RoomTime readById(int id) throws SQLException {
+            ps = con.prepareStatement(ROOMTIME_INI.get("read", "read_all_byid"));
+            res = ps.executeQuery();
+
+            RoomTime roomTime = new RoomTime();
+            while (!res.next()) {
+                roomTime.setId(res.getInt("id"));
+                roomTime.setTime(res.getString("time"));
+            }
+            return roomTime;
+        }
+
+        public int updateTimeById(RoomTime roomTime) throws SQLException {
+            ps = con.prepareStatement(ROOMTIME_INI.get("update", "update_time_byid"));
+            ps.setString(1, roomTime.getTime());
+            ps.setInt(2, roomTime.getId());
+            return ps.executeUpdate();
+        }
+
+        public int deleteAll() throws SQLException {
+            ps = con.prepareStatement(ROOMTIME_INI.get("delete", "delete_all"));
+            return ps.executeUpdate();
+        }
+
+        public int deleteById(int id) throws SQLException {
+            ps = con.prepareStatement(ROOMTIME_INI.get("delete", "delete_byid"));
+            ps.setInt(1, id);
+            return ps.executeUpdate();
+        }
     }   //-- End of RoomTime Queries
 
     class RoomTimeslotQueries {
