@@ -5,6 +5,7 @@ import tolentino.managers.DatabaseManager;
 
 import java.sql.SQLException;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DatabaseManagerTest {
@@ -12,15 +13,23 @@ public class DatabaseManagerTest {
     @BeforeAll
     static void beforeAllTest() {
         DatabaseManager db = DatabaseManager.getInstance();
+        assertTrue(db.isConnected());
+        assertNotNull(db.getDDL_INI());
     }
 
     @BeforeEach
     void beforeEachTest() {
+        assertTrue(DatabaseManager.getInstance().isConnected());
     }
 
     @Test
     public void shouldBeConnected() {
-        DatabaseManager db = DatabaseManager.getInstance();
+        assertTrue(DatabaseManager.getInstance().isConnected());
+    }
+
+    @Test
+    public void shouldNotNull() {
+        assertNotNull(DatabaseManager.getInstance().getDDL_INI());
     }
 
     @AfterEach

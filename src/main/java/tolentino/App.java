@@ -8,5 +8,6 @@ import tolentino.managers.DatabaseManager;
 public class App {
     public static void main(String[] args) {
         DatabaseManager db = DatabaseManager.getInstance();
+        System.out.println(db.isConnected());
     }
 }

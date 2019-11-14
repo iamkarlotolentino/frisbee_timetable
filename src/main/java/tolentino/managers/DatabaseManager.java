@@ -3,6 +3,7 @@ package tolentino.managers;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.ini4j.Ini;
+import org.ini4j.Profile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tolentino.models.*;
@@ -21,12 +22,11 @@ public class DatabaseManager {
 
     private static DatabaseManager instance;
 
-    private Connection con = null;
-    private PreparedStatement ps = null;
-    private ResultSet res = null;
+    private static Connection con = null;
+    private static PreparedStatement ps = null;
+    private static ResultSet res = null;
 
     private Ini DDL_INI;
-    private Ini.Section DDL_SECTION;
 
     private DatabaseManager() {
         // If not yet connected, then connect
@@ -36,7 +36,6 @@ public class DatabaseManager {
         if (true) {
             try {
                 DDL_INI = new Ini(new File("src/main/res/sql/ddl.ini"));
-                DDL_SECTION = DDL_INI.get("ddl");
             } catch (IOException e) {
                 DB_LOGGER.error("The ddl SQL file is not found.");
             }
@@ -64,7 +63,7 @@ public class DatabaseManager {
     //--------- Data Definition Language
     public boolean defineSection() {
         try {
-            ps = con.prepareStatement(DDL_SECTION.get("define_section"));
+            ps = con.prepareStatement(DDL_INI.get("ddl", "define_section"));
             int state = ps.executeUpdate();
             if (state > 0) {
                 DB_LOGGER.info("(section) table is created in the database.");
@@ -78,7 +77,7 @@ public class DatabaseManager {
 
     public boolean defineSubject() {
         try {
-            ps = con.prepareStatement(DDL_SECTION.get("define_subject"));
+            ps = con.prepareStatement(DDL_INI.get("ddl", "define_subject"));
             int state = ps.executeUpdate();
             if (state > 0) {
                 DB_LOGGER.info("(subject) table is created in the database.");
@@ -92,7 +91,7 @@ public class DatabaseManager {
 
     public boolean defineRoomType() {
         try {
-            ps = con.prepareStatement(DDL_SECTION.get("define_room_type"));
+            ps = con.prepareStatement(DDL_INI.get("ddl", "define_room_type"));
             int state = ps.executeUpdate();
             if (state > 0) {
                 DB_LOGGER.info("(room_type) table is created in the database.");
@@ -106,7 +105,7 @@ public class DatabaseManager {
 
     public boolean defineRoomTime() {
         try {
-            ps = con.prepareStatement(DDL_SECTION.get("define_room_time"));
+            ps = con.prepareStatement(DDL_INI.get("ddl", "define_room_time"));
             int state = ps.executeUpdate();
             if (state > 0) {
                 DB_LOGGER.info("(room_time) table is created in the database.");
@@ -120,7 +119,7 @@ public class DatabaseManager {
 
     public boolean defineRoomTimeslot() {
         try {
-            ps = con.prepareStatement(DDL_SECTION.get("define_room_timeslot"));
+            ps = con.prepareStatement(DDL_INI.get("ddl", "define_room_timeslot"));
             int state = ps.executeUpdate();
             if (state > 0) {
                 DB_LOGGER.info("(room_timeslot) table is created in the database.");
@@ -134,7 +133,7 @@ public class DatabaseManager {
 
     public boolean defineRoomDay() {
         try {
-            ps = con.prepareStatement(DDL_SECTION.get("define_room_day"));
+            ps = con.prepareStatement(DDL_INI.get("ddl", "define_room_day"));
             int state = ps.executeUpdate();
             if (state > 0) {
                 DB_LOGGER.info("(room_day) table is created in the database.");
@@ -148,7 +147,7 @@ public class DatabaseManager {
 
     public boolean defineRoom() {
         try {
-            ps = con.prepareStatement(DDL_SECTION.get("define_room"));
+            ps = con.prepareStatement(DDL_INI.get("ddl", "define_room"));
             int state = ps.executeUpdate();
             if (state > 0) {
                 DB_LOGGER.info("(room) table is created in the database.");
@@ -162,7 +161,7 @@ public class DatabaseManager {
 
     public boolean defineStudent() {
         try {
-            ps = con.prepareStatement(DDL_SECTION.get("define_student"));
+            ps = con.prepareStatement(DDL_INI.get("ddl", "define_student"));
             int state = ps.executeUpdate();
             if (state > 0) {
                 DB_LOGGER.info("(student) table is created in the database.");
@@ -174,7 +173,7 @@ public class DatabaseManager {
         return false;
     }
 
-    class SectionQueries {
+    public static class SectionQueries {
         private Ini SECTION_INI;
 
         public SectionQueries() {
@@ -184,6 +183,10 @@ public class DatabaseManager {
             } catch (IOException e) {
                 LogUtils.failLoadIni("sectionsql.ini");
             }
+        }
+
+        public Ini getSECTION_INI() {
+            return SECTION_INI;
         }
 
         public int createSection(Section section) throws SQLException {
@@ -229,7 +232,7 @@ public class DatabaseManager {
             return ps.executeUpdate();
         }
         //---- End of SectionQueries
-    }   //-- End6 of SectionQueries
+    }   //-- End of SectionQueries
 
     class SubjectQueries {
         private Ini SUBJECT_INI;
@@ -763,6 +766,14 @@ public class DatabaseManager {
 
     public boolean isConnected() {
         return (con != null);
+    }
+
+    public Ini getDDL_INI() {
+        return DDL_INI;
+    }
+
+    public void setDDL_INI(Ini DDL_INI) {
+        this.DDL_INI = DDL_INI;
     }
 
     public static DatabaseManager getInstance() {

@@ -7,13 +7,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e776304-05b7-4708-8457-e5127c906681" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/ReleaseProduct.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/ReleaseProduct.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/ddl code.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/managers/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/managers/DatabaseManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tolentino/models/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tolentino/models/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/sql/roomtimesql.ini" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/sql/roomtimesql.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/sql/sectiontakensubjectssql.ini" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/sql/sectiontakensubjectssql.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/sql/studentsql.ini" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/sql/studentsql.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tolentino/DBMSectionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tolentino/DBMSectionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tolentino/DatabaseManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tolentino/DatabaseManagerTest.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -90,11 +89,11 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/res" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Problems" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.33265924" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.excludes" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -108,7 +107,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.DBMSectionTest">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="tolentino.App" />
       <module name="frisbee" />
@@ -122,8 +121,57 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="DBMSectionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="frisbee" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tolentino.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tolentino" />
+      <option name="MAIN_CLASS_NAME" value="tolentino.DBMSectionTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DatabaseManagerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="frisbee" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tolentino.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tolentino" />
+      <option name="MAIN_CLASS_NAME" value="tolentino.DatabaseManagerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DatabaseManagerTest.shouldBeConnected" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="frisbee" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tolentino.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tolentino" />
+      <option name="MAIN_CLASS_NAME" value="tolentino.DatabaseManagerTest" />
+      <option name="METHOD_NAME" value="shouldBeConnected" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.DBMSectionTest" />
+        <item itemvalue="JUnit.DatabaseManagerTest" />
+        <item itemvalue="JUnit.DatabaseManagerTest.shouldBeConnected" />
         <item itemvalue="Application.App" />
       </list>
     </recent_temporary>
@@ -172,6 +220,9 @@
       <workItem from="1573613045837" duration="2083000" />
       <workItem from="1573647117311" duration="1072000" />
       <workItem from="1573648683185" duration="3428000" />
+      <workItem from="1573704744517" duration="95000" />
+      <workItem from="1573704870662" duration="1450000" />
+      <workItem from="1573706373935" duration="1115000" />
     </task>
     <servers />
   </component>
