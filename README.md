@@ -1,9 +1,9 @@
 #### THIS PROJECT
-## An application of Genetic Algorithm in Student-Lecture Timetable System
+## An application of Genetic Algorithm in Lecture-Course Timetable System
 
 #### Preparing a student-lecture timetable is an exhaustive task for every colleges. The proposed timetabling system requires minimal effort from the adminstration staff, and solves the time-consuming task.
 
-The proposed timetabling system was divided into three stages: The first stage is the data collection. In this stage, the adminstrative staff is responsible for preparing the data. In the second stage, the program generates an initial set of suggested schedules (chromosomes). Each chromosomes represents a solutino the problem, but usually is not satisfactory. Finally, the proposed timetabling system starts the search for a good solution that satisfies teh best interests of the college according to a cost function. GA is applied in the search for a satisfactory schedule based on a predefined criterion.
+The proposed timetabling system was divided into three stages: The first stage is the data collection. In this stage, the adminstrative staff is responsible for preparing the data. In the second stage, the program generates an initial set of suggested schedules (chromosomes). Each chromosomes represents a solution the problem, but usually is not satisfactory. Finally, the proposed timetabling system starts the search for a good solution that satisfies teh best interests of the college according to a cost function. GA is applied in the search for a satisfactory schedule based on a predefined criterion.
 
 ##### HARD CONSTRAINTS
 1. One subject per room at a certain timeslot.
