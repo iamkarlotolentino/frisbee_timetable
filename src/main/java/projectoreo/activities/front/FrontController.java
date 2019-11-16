@@ -12,7 +12,6 @@ import javafx.scene.layout.BorderPane;
 import projectoreo.activities.data_collection.DataCollectionController;
 import projectoreo.utils.Controller;
 import projectoreo.utils.ControllersDispatcher;
-import sun.plugin.javascript.navig.Anchor;
 
 import java.net.URL;
 import java.util.ResourceBundle;
