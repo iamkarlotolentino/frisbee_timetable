@@ -1,4 +1,4 @@
-package tolentino.models;
+package projectoreo.models;
 
 public class Student {
 

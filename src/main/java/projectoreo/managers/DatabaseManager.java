@@ -1,14 +1,12 @@
-package tolentino.managers;
+package projectoreo.managers;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.ini4j.Ini;
-import org.ini4j.Profile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tolentino.models.*;
+import projectoreo.models.*;
 
-import javax.xml.transform.Result;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
