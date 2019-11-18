@@ -2,21 +2,21 @@ package projectoreo.models;
 
 public class Student {
 
-    private int id;
+    private String id;
     private String firstName;
     private String middleName;
     private String lastName;
     private int sectionId;
 
     public Student() {
-        this.id = -1;
+    this.id = "unspecified";
         this.firstName = "unspecified";
         this.middleName = "unspecified";
         this.lastName = "unspecified";
         sectionId = -1;
     }
 
-    public Student(int id, String firstName, String middleName, String lastName, int sectionId) {
+    public Student(String id, String firstName, String middleName, String lastName, int sectionId) {
         this.id = id;
         this.firstName = firstName;
         this.middleName = middleName;
@@ -24,11 +24,11 @@ public class Student {
         this.sectionId = sectionId;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -62,5 +62,16 @@ public class Student {
 
     public void setSectionId(int sectionId) {
         this.sectionId = sectionId;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", sectionId=" + sectionId +
+                '}';
     }
 }

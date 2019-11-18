@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -43,4 +44,14 @@
          </children>
       </AnchorPane>
    </center>
+   <bottom>
+      <HBox prefHeight="25.0" prefWidth="200.0" style="-fx-border-color: #cfcfcf; -fx-border-width: 1 0 0 0;" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="currentStatus" />
+         </children>
+         <padding>
+            <Insets left="10.0" top="3.0" />
+         </padding>
+      </HBox>
+   </bottom>
 </BorderPane>

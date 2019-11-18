@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -27,7 +28,17 @@ public class FrontController implements Initializable, Controller {
 
   @FXML private Button about;
 
+  @FXML private Label currentStatus;
+
   private DataCollectionController dataCollectionController;
+
+  private static void about(ActionEvent click) {
+    Alert about = new Alert(Alert.AlertType.INFORMATION);
+    about.setTitle("About this software");
+    about.setHeaderText("About this software");
+    about.setContentText("It is a prerequisite for passing my database systems, respectively.");
+    about.showAndWait();
+  }
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -38,6 +49,8 @@ public class FrontController implements Initializable, Controller {
   @Override
   public void setup() {
     listeners();
+
+    currentStatus.setText("Ready!");
   }
 
   @Override
@@ -46,7 +59,8 @@ public class FrontController implements Initializable, Controller {
         click -> {
           System.out.println("I'm being clicked!");
 
-          // EXPLAINED: The click event sets the button in selected state, before we could evaluate the state
+          // EXPLAINED: The click event sets the button in selected state, before we could evaluate
+          // the state
           if (dataCollection.isSelected()) {
 
             // Prevent multiple new objects
@@ -76,11 +90,11 @@ public class FrontController implements Initializable, Controller {
     rootPane.setCenter(contentPane);
   }
 
-  private static void about(ActionEvent click) {
-    Alert about = new Alert(Alert.AlertType.INFORMATION);
-    about.setTitle("About this software");
-    about.setHeaderText("About this software");
-    about.setContentText("It is a prerequisite for passing my database systems, respectively.");
-    about.showAndWait();
+  public void setCurrentStatus(String status) {
+    currentStatus.setText(status);
+  }
+
+  public Label getCurrentStatus() {
+    return currentStatus;
   }
 }

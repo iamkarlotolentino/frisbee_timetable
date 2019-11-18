@@ -5,13 +5,14 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import projectoreo.utils.ActivityLoader;
 import projectoreo.utils.Controller;
+import projectoreo.utils.ControllersDispatcher;
 
 public class DataCollectionController implements Controller {
 
   private TabPane contentPane;
 
-  private Tab studentTab;
   private StudentTabController studentTabController;
+  private SubjectTabController subjectTabController;
 
   public DataCollectionController() {
     contentPane = new TabPane();
@@ -27,19 +28,36 @@ public class DataCollectionController implements Controller {
     studentTabIntent.onFinish(
         finish -> {
           studentTabController = (StudentTabController) studentTabIntent.getActivityController();
+          ControllersDispatcher.getInstance()
+                  .store(StudentTabController.class, studentTabController);
 
           Tab studentTab = new Tab("  Student  ");
           clipAllSides(studentTabController.getStudentTab());
           studentTab.setContent(new AnchorPane(studentTabController.getStudentTab()));
           contentPane.getTabs().add(studentTab);
-
-          // TODO: Next tabs are placed in here
         });
     studentTabIntent.start();
+
+    ActivityLoader subjectTabIntent = new ActivityLoader();
+    subjectTabIntent.setLocationPath("views/subject_tab.fxml");
+    subjectTabIntent.setActivityController(new SubjectTabController());
+    subjectTabIntent.onFinish(
+        finish -> {
+          subjectTabController = (SubjectTabController) subjectTabIntent.getActivityController();
+          ControllersDispatcher.getInstance()
+              .store(SubjectTabController.class, subjectTabController);
+
+          Tab subjectTab = new Tab("  Subject  ");
+          clipAllSides(subjectTabController.getSubjectTab());
+          subjectTab.setContent(new AnchorPane(subjectTabController.getSubjectTab()));
+          contentPane.getTabs().add(subjectTab);
+        });
+    subjectTabIntent.start();
   }
 
   @Override
-  public void listeners() {}
+  public void listeners() {
+  }
 
   private void clipAllSides(AnchorPane pane) {
     AnchorPane.setTopAnchor(pane, 0d);
