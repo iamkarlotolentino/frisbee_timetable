@@ -426,6 +426,12 @@ public class DatabaseManager {
       ps = con.prepareStatement(SUBJECT_INI.get("delete", "delete_all"));
       return ps.executeUpdate();
     }
+
+    public int deleteById(String id) throws SQLException {
+      ps = con.prepareStatement(SUBJECT_INI.get("delete", "delete_byid"));
+      ps.setString(1, id);
+      return ps.executeUpdate();
+    }
   } // -- End of SubjectQueries
 
   class RoomQueries {

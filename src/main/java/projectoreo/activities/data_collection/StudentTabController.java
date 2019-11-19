@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -14,9 +13,12 @@ import javafx.stage.FileChooser;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import projectoreo.activities.front.FrontController;
+import projectoreo.dialogs.DialogAlert;
+import projectoreo.dialogs.DialogType;
 import projectoreo.dialogs.NewStudentDialog;
-import projectoreo.dialogs.SQLErrorAlert;
 import projectoreo.models.Student;
+import projectoreo.utils.ControllersDispatcher;
 
 import java.io.File;
 import java.net.URL;
@@ -65,33 +67,54 @@ public class StudentTabController extends DataCollectionTemplate {
     refresh.setOnAction(
         click -> {
           loadStudentTask();
-          loadStudentTask.run();
+
+          ExecutorService executorService = Executors.newFixedThreadPool(1);
+          executorService.execute(loadStudentTask);
+          executorService.shutdown();
         });
     // Create a dialog to input information, then entered in the database
     createNew.setOnAction(
         click -> {
-          NewStudentDialog dialog = new NewStudentDialog(NewStudentDialog.Type.CREATE);
-          dialog.show();
-          if (dialog.getStudentData() != null) {
-            try {
-              DB_MANAGER.getStudentQueries().create(dialog.getStudentData());
-              tableView.getItems().add(dialog.getStudentData());
-              setCurrentStatus("New student data has been added.", false);
-            } catch (SQLException e) {
-              promptDuplicatedError(e);
-            }
+          NewStudentDialog newStudentDialog = new NewStudentDialog(DialogType.CREATE, null);
+          Optional<Student> student = newStudentDialog.showAndWait();
+          student.ifPresent(
+              studentData -> {
+                try {
+                  DB_MANAGER.getStudentQueries().create(studentData);
+                  tableView.getItems().add(studentData);
+                  setCurrentStatus("New student data has been added", false);
+                } catch (SQLException e) {
+                  if (e.getErrorCode() == 19) DialogAlert.requestDuplicateError("[STUDENT_ID]");
+                  else e.printStackTrace();
+                }
+              });
+        });
+    editSelected.setOnAction(
+        click -> {
+          if (tableView.getSelectionModel().getSelectedIndex() > -1) {
+            NewStudentDialog editSubject =
+                new NewStudentDialog(
+                    DialogType.EDIT, tableView.getSelectionModel().getSelectedItem());
+            Optional<Student> student = editSubject.showAndWait();
+            student.ifPresent(
+                studentData -> {
+                  try {
+                    DB_MANAGER.getStudentQueries().updateAllById(studentData);
+                    tableView
+                        .getItems()
+                        .set(tableView.getSelectionModel().getSelectedIndex(), studentData);
+                    setCurrentStatus("Particular student has been updated.", false);
+                  } catch (SQLException e) {
+                    if (e.getErrorCode() == 19) DialogAlert.requestDuplicateError("[STUDENT_ID]");
+                    else e.printStackTrace();
+                  }
+                });
           }
         });
     deleteSelected.setOnAction(
         click -> {
           if (tableView.getSelectionModel().getSelectedIndex() > -1) {
-            Alert selectedDeleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            selectedDeleteAlert.setTitle("You're deleting a student");
-            selectedDeleteAlert.setHeaderText("Delete a student");
-            selectedDeleteAlert.setContentText(
-                "You are deleting a particular data of a student. "
-                    + "Please proceed with utmost certainty.");
-            Optional<ButtonType> result = selectedDeleteAlert.showAndWait();
+            Optional<ButtonType> result = DialogAlert.requestDeleteSelectedConfirmation();
             if (result.get() == ButtonType.OK) {
               try {
                 DB_MANAGER
@@ -105,28 +128,14 @@ public class StudentTabController extends DataCollectionTemplate {
             }
           }
         });
-    editSelected.setOnAction(
-        click -> {
-          NewStudentDialog editStudentDialog = new NewStudentDialog(NewStudentDialog.Type.EDIT);
-          editStudentDialog.setStudentData(tableView.getSelectionModel().getSelectedItem());
-          editStudentDialog.populateData();
-          editStudentDialog.show();
-          try {
-            DB_MANAGER.getStudentQueries().updateAllById(editStudentDialog.getStudentData());
-            tableView
-                .getItems()
-                .set(
-                    tableView.getSelectionModel().getSelectedIndex(),
-                    editStudentDialog.getStudentData());
-            setCurrentStatus("Particular student has been updated.", false);
-          } catch (SQLException e) {
-            promptDuplicatedError(e);
-          }
-        });
     importFromCSV.setOnAction(
         click -> {
           FileChooser importCSV = new FileChooser();
-          importCSVTask(importCSV.showOpenDialog(null));
+          // TODO: Detect if the dialog has cancelled to prevent the error tracing
+          importCSVTask(
+              importCSV.showOpenDialog(
+                  ((FrontController) ControllersDispatcher.getInstance().get(FrontController.class))
+                      .getPrimaryStage()));
 
           ExecutorService executorService = Executors.newFixedThreadPool(1);
           executorService.execute(importCSVTask);
@@ -139,15 +148,18 @@ public class StudentTabController extends DataCollectionTemplate {
     exportToCSV.setOnAction(
         click -> {
           FileChooser exportCSV = new FileChooser();
-          exportCSVTask(exportCSV.showSaveDialog(null));
+          exportCSVTask(
+              exportCSV.showSaveDialog(
+                  ((FrontController) ControllersDispatcher.getInstance().get(FrontController.class))
+                      .getPrimaryStage()));
         });
     deleteAllData.setOnAction(
         click -> {
-          Optional<ButtonType> result = SQLErrorAlert.requestConfirmationWarning();
+          Optional<ButtonType> result = DialogAlert.requestDeleteSelectedConfirmation();
           if (result.get() == ButtonType.OK) {
             try {
               DB_MANAGER.getStudentQueries().deleteAll();
-              refresh.fire();
+              tableView.getItems().clear();
             } catch (SQLException e) {
               e.printStackTrace();
             }
@@ -228,7 +240,7 @@ public class StudentTabController extends DataCollectionTemplate {
         };
     importCSVTask.setOnFailed(
         failed -> {
-          SQLErrorAlert.requestDuplicateError("[STUDENT_ID]");
+          DialogAlert.requestDuplicateError("[STUDENT_ID]");
           importCSVTask.cancel();
           setCurrentStatus("Failed to import CSV file", false);
           importFromCSV.setDisable(false);
@@ -247,7 +259,7 @@ public class StudentTabController extends DataCollectionTemplate {
   private void promptDuplicatedError(SQLException e) {
     // Duplicate studentID as enforced by constraints
     if (e.getErrorCode() == 19) {
-      SQLErrorAlert.requestDuplicateError("[STUDENT_ID]");
+      DialogAlert.requestDuplicateError("[STUDENT_ID]");
     } else {
       e.printStackTrace();
     }

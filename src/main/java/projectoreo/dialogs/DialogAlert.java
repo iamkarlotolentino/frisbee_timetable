@@ -2,10 +2,11 @@ package projectoreo.dialogs;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.ImageView;
 
 import java.util.Optional;
 
-public class SQLErrorAlert {
+public class DialogAlert {
 
   public static void requestDuplicateError(String fields) {
     Alert duplicate = new Alert(Alert.AlertType.ERROR);
@@ -19,13 +20,23 @@ public class SQLErrorAlert {
     duplicate.showAndWait();
   }
 
-  public static Optional<ButtonType> requestConfirmationWarning() {
+  public static Optional<ButtonType> requestDeleteSelectedConfirmation() {
     Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
-    deleteAlert.setTitle("THIS IS AN UNRECOVERABLE ACTION");
+    deleteAlert.setTitle("Warning!");
+    deleteAlert.setHeaderText("Delete selected item");
+    deleteAlert.setContentText(
+        "You are about to delete a particular item. "
+            + "By committing this, there won't be any backup to recover this action.");
+    return deleteAlert.showAndWait();
+  }
+
+  public static Optional<ButtonType> requestDeleteAllConfirmation() {
+    Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
+    deleteAlert.setTitle("Critical Warning!");
     deleteAlert.setHeaderText("Warning! Please think of your actions wisely!");
     deleteAlert.setContentText(
-        "You are about to delete all the data about STUDENTS. "
-            + "By committing this, there won't be any backup to recover this action.");
+            "You are about to delete all the data. "
+                    + "By committing this, there won't be any backup to recover this action.");
     return deleteAlert.showAndWait();
   }
 }

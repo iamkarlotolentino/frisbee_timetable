@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import projectoreo.activities.data_collection.DataCollectionController;
 import projectoreo.utils.Controller;
 import projectoreo.utils.ControllersDispatcher;
@@ -15,6 +16,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class FrontController implements Initializable, Controller {
+
+  private Stage primaryStage;
 
   @FXML private BorderPane rootPane;
   @FXML private AnchorPane welcomeInfoPane;
@@ -99,5 +102,13 @@ public class FrontController implements Initializable, Controller {
 
   public Label getCurrentStatus() {
     return currentStatus;
+  }
+
+  public Stage getPrimaryStage() {
+    return primaryStage;
+  }
+
+  public void setPrimaryStage(Stage primaryStage) {
+    this.primaryStage = primaryStage;
   }
 }

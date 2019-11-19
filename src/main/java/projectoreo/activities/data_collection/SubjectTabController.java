@@ -5,17 +5,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import projectoreo.activities.front.FrontController;
+import projectoreo.dialogs.DialogAlert;
 import projectoreo.dialogs.DialogType;
 import projectoreo.dialogs.NewSubjectDialog;
-import projectoreo.dialogs.SQLErrorAlert;
-import projectoreo.managers.DatabaseManager;
 import projectoreo.models.RoomType;
 import projectoreo.models.Subject;
-import projectoreo.utils.ControllersDispatcher;
 
 import java.net.URL;
 import java.sql.ResultSet;
@@ -59,26 +58,73 @@ public class SubjectTabController extends DataCollectionTemplate {
     super.listeners();
     createNew.setOnAction(
         click -> {
-          NewSubjectDialog newSubjectDialog = new NewSubjectDialog(DialogType.CREATE);
+          NewSubjectDialog newSubjectDialog = new NewSubjectDialog(DialogType.CREATE, null);
           Optional<Subject> subject = newSubjectDialog.showAndWait();
           subject.ifPresent(
               subjectData -> {
                 try {
                   DB_MANAGER.getSubjectQueries().create(subjectData);
+                  tableView.getItems().add(subjectData);
+                  setCurrentStatus("New subject data has been added", false);
                 } catch (SQLException e) {
-                  if (e.getErrorCode() == 19) {
-                    SQLErrorAlert.requestDuplicateError("[SUBJECT_ID]");
-                  } else e.printStackTrace();
+                  if (e.getErrorCode() == 19) DialogAlert.requestDuplicateError("[SUBJECT_ID]");
+                  else e.printStackTrace();
                 }
               });
         });
-    deleteSelected.setOnAction(click -> {});
-    editSelected.setOnAction(click -> {});
+    editSelected.setOnAction(
+        click -> {
+          if (tableView.getSelectionModel().getSelectedIndex() > -1) {
+            NewSubjectDialog editSubject =
+                new NewSubjectDialog(
+                    DialogType.EDIT, tableView.getSelectionModel().getSelectedItem());
+            Optional<Subject> subject = editSubject.showAndWait();
+            subject.ifPresent(
+                subjectData -> {
+                  try {
+                    DB_MANAGER.getSubjectQueries().updateById(subjectData);
+                    tableView
+                        .getItems()
+                        .set(tableView.getSelectionModel().getSelectedIndex(), subjectData);
+                  } catch (SQLException e) {
+                    if (e.getErrorCode() == 19) DialogAlert.requestDuplicateError("[SUBJECT_ID]");
+                    else e.printStackTrace();
+                  }
+                });
+          }
+        });
+    deleteSelected.setOnAction(
+        click -> {
+          if (tableView.getSelectionModel().getSelectedIndex() > -1) {
+            Optional<ButtonType> result = DialogAlert.requestDeleteSelectedConfirmation();
+            if (result.get() == ButtonType.OK) {
+              try {
+                DB_MANAGER
+                    .getSubjectQueries()
+                    .deleteById(tableView.getSelectionModel().getSelectedItem().getId());
+                tableView.getItems().remove(tableView.getSelectionModel().getSelectedIndex());
+              } catch (SQLException e) {
+                e.printStackTrace();
+              }
+            }
+          }
+        });
 
     importFromCSV.setOnAction(click -> {});
     viewSummaryOfData.setOnAction(click -> {});
     exportToCSV.setOnAction(click -> {});
-    deleteAllData.setOnAction(click -> {});
+    deleteAllData.setOnAction(
+        click -> {
+          Optional<ButtonType> result = DialogAlert.requestDeleteAllConfirmation();
+          if (result.get() == ButtonType.OK) {
+            try {
+              DB_MANAGER.getSubjectQueries().deleteAll();
+              tableView.getItems().clear();
+            } catch (SQLException e) {
+              e.printStackTrace();
+            }
+          }
+        });
     refresh.setOnAction(
         click -> {
           loadSubjectTask();

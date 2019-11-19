@@ -1,127 +1,134 @@
 package projectoreo.dialogs;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import projectoreo.models.Student;
-import projectoreo.utils.ResourceLoader;
 
-import java.io.IOException;
+import java.util.Optional;
 
 public class NewStudentDialog {
 
-  private Stage dialog;
-  private BorderPane rootPane;
-  private TextField studentId;
-  private TextField firstName;
-  private TextField middleName;
-  private TextField lastName;
-  private ComboBox assignedSection;
-  private Button create;
-  private Button cancel;
-  private Student studentData;
+  private Dialog dialog;
 
-  public NewStudentDialog(NewStudentDialog.Type type) {
-    try {
-      rootPane = FXMLLoader.load(ResourceLoader.getResource("views/new_student.fxml"));
-    } catch (IOException e) {
-      e.printStackTrace();
+  public NewStudentDialog(DialogType dialogType, Student student) {
+    dialog = new Dialog<>();
+
+    String buttonText = "Create";
+    if (dialogType == DialogType.CREATE) {
+      dialog.setTitle("Create New Student");
+      dialog.setHeaderText("Create New Student");
+    } else {
+      dialog.setTitle("Edit Student");
+      dialog.setHeaderText("Edit Student");
+      buttonText = "Update";
     }
 
-    if (rootPane != null) {
-      dialog = new Stage();
-      dialog.initModality(Modality.APPLICATION_MODAL);
-      dialog.setResizable(false);
-      if (type == Type.CREATE) dialog.setTitle("Create New Student");
-      else dialog.setTitle("Edit New Student");
-      dialog.setScene(new Scene(rootPane));
+    ButtonType controlButton = new ButtonType(buttonText, ButtonBar.ButtonData.OK_DONE);
+    dialog.getDialogPane().getButtonTypes().addAll(controlButton, ButtonType.CANCEL);
 
-      initialize();
-      listeners();
-    }
-  }
+    GridPane grid = new GridPane();
+    grid.setHgap(10d);
+    grid.setVgap(10d);
+    grid.setPadding(new Insets(20, 10, 10, 10));
 
-  private void initialize() {
-    studentId = (TextField) rootPane.lookup("#studentID");
-    firstName = (TextField) rootPane.lookup("#firstName");
-    middleName = (TextField) rootPane.lookup("#middleName");
-    lastName = (TextField) rootPane.lookup("#lastName");
+    TextField studentId = new TextField();
+    TextField firstName = new TextField();
+    TextField middleName = new TextField();
+    TextField lastName = new TextField();
+    ComboBox assignedSection = new ComboBox();
 
-    assignedSection = (ComboBox) rootPane.lookup("#assignedSection");
-    assignedSection.getItems().add("BSCS-1A");
+    studentId.setMinWidth(300d);
+    assignedSection.setValue("-select-");
     assignedSection.getItems().add("BSCS-1B");
-    assignedSection.getItems().add("BSCS-2A");
-    assignedSection.getItems().add("BSCS-2B");
 
-    create = (Button) rootPane.getBottom().lookup("#create");
-    cancel = (Button) rootPane.lookup("#cancel");
-  }
-
-  private void listeners() {
-    create.setOnAction(
-        click -> {
-          if (!isFieldsEmpty()) {
-            if (middleName.getText().isEmpty()) middleName.setText("<none>");
-
-            studentData =
-                new Student(
-                    studentId.getText(),
-                    firstName.getText(),
-                    middleName.getText(),
-                    lastName.getText(),
-                    -1);
-            dialog.close();
-          } else {
-            Alert warning = new Alert(Alert.AlertType.WARNING);
-            warning.setContentText("It is required to input all necessary data for all fields.");
-            warning.setHeaderText("Missing information");
-            warning.setTitle("Oops..");
-            warning.showAndWait();
-          }
-        });
-    cancel.setOnAction(
-        click -> {
-          dialog.close();
-        });
-  }
-
-  public void populateData() {
-    if (studentData != null) {
-      studentId.setText(studentData.getId());
-      firstName.setText(studentData.getFirstName());
-      middleName.setText(studentData.getMiddleName());
-      lastName.setText(studentData.getLastName());
-      assignedSection.setValue(studentData.getSectionId());
+    // Initialization if there is a passed subject data
+    if (student != null) {
+      studentId.setText(student.getId());
+      firstName.setText(student.getFirstName());
+      middleName.setText(student.getMiddleName());
+      lastName.setText(student.getLastName());
+      assignedSection.setValue(student.getSectionId());
     }
+
+    grid.add(new Label("Student ID"), 0, 0);
+    grid.add(studentId, 1, 0);
+    grid.add(new Label("First Name"), 0, 1);
+    grid.add(firstName, 1, 1);
+    grid.add(new Label("Middle Name"), 0, 2);
+    grid.add(middleName, 1, 2);
+    grid.add(new Label("Last Name"), 0, 3);
+    grid.add(lastName, 1, 3);
+    grid.add(new Label("Assign Section"), 0, 4);
+    grid.add(assignedSection, 1, 4);
+
+    // Disable button for validation process first
+    Node okButton = dialog.getDialogPane().lookupButton(controlButton);
+    okButton.setDisable(true);
+
+    // Validation
+    studentId
+        .textProperty()
+        .addListener(
+            (observable, oldValue, newValue) ->
+                validation(studentId, firstName, middleName, lastName, assignedSection, okButton));
+    firstName
+        .textProperty()
+        .addListener(
+            (observable, oldValue, newValue) ->
+                validation(studentId, firstName, middleName, lastName, assignedSection, okButton));
+    middleName
+        .textProperty()
+        .addListener(
+            (observable, oldValue, newValue) ->
+                validation(studentId, firstName, middleName, lastName, assignedSection, okButton));
+    lastName
+        .textProperty()
+        .addListener(
+            (observable, oldValue, newValue) ->
+                validation(studentId, firstName, middleName, lastName, assignedSection, okButton));
+    assignedSection
+        .valueProperty()
+        .addListener(
+            (observable, oldValue, newValue) ->
+                validation(studentId, firstName, middleName, lastName, assignedSection, okButton));
+
+    dialog.getDialogPane().setContent(grid);
+
+    // Request focus on the first field
+    Platform.runLater(() -> studentId.requestFocus());
+
+    // Storing information gathered
+    dialog.setResultConverter(
+        dialogButton -> {
+          if (dialogButton == controlButton) {
+            return new Student(
+                studentId.getText(),
+                firstName.getText(),
+                middleName.getText(),
+                lastName.getText(),
+                1);
+          } else return null;
+        });
   }
 
-  public void show() {
-    dialog.showAndWait();
-  }
-
-  public Student getStudentData() {
-    return studentData;
-  }
-
-  public void setStudentData(Student studentData) {
-    this.studentData = studentData;
-  }
-
-  private boolean isFieldsEmpty() {
-    return (studentId.getText().isEmpty()
+  private void validation(
+      TextField studentId,
+      TextField firstName,
+      TextField middleName,
+      TextField lastName,
+      ComboBox assignedSection,
+      Node okButton) {
+    okButton.setDisable(
+        (studentId.getText().isEmpty()
             || firstName.getText().isEmpty()
-            || lastName.getText().isEmpty())
-        || assignedSection.getValue() == null;
+            || lastName.getText().isEmpty()
+            || assignedSection.getValue().equals("-select-")));
   }
 
-  public enum Type {
-    CREATE,
-    EDIT,
+  public Optional<Student> showAndWait() {
+    return dialog.showAndWait();
   }
 }

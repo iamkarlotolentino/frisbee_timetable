@@ -15,7 +15,15 @@ public class NewSubjectDialog {
 
   private Dialog<Subject> dialog;
 
-  public NewSubjectDialog(DialogType dialogType) {
+  /**
+   * Creates a new subject form dialog
+   *
+   * <p>Pass a null subject when creating a new subject.
+   *
+   * @param dialogType
+   * @param subject
+   */
+  public NewSubjectDialog(DialogType dialogType, Subject subject) {
     dialog = new Dialog<>();
 
     String buttonText = "Create";
@@ -24,6 +32,7 @@ public class NewSubjectDialog {
       dialog.setHeaderText("Create New Subject");
     } else {
       dialog.setTitle("Edit Subject");
+      dialog.setHeaderText("Edit Subject");
       buttonText = "Update";
     }
 
@@ -36,14 +45,23 @@ public class NewSubjectDialog {
     grid.setPadding(new Insets(20, 10, 10, 10));
 
     TextField subjectId = new TextField();
-    subjectId.setMinWidth(300d);  // Increasing the size of the dialog
     TextField name = new TextField();
     TextField desc = new TextField();
-    ComboBox assignedRoomType = new ComboBox();
+    ComboBox<String> assignedRoomType = new ComboBox<>();
+
+    subjectId.setMinWidth(300d); // Increasing the size of the dialog
     assignedRoomType.setValue("-select-");
     assignedRoomType.getItems().add("LEC");
     assignedRoomType.getItems().add("CMP-LAB");
     assignedRoomType.getItems().add("BIO-LAB");
+
+    // Initialization if there is a passed subject data
+    if (subject != null) {
+      subjectId.setText(subject.getId());
+      name.setText(subject.getName());
+      desc.setText(subject.getDesc());
+      assignedRoomType.setValue(subject.getType().getType());
+    }
 
     grid.add(new Label("Subject ID"), 0, 0);
     grid.add(subjectId, 1, 0);
@@ -60,7 +78,9 @@ public class NewSubjectDialog {
 
     subjectId.textProperty().addListener(validation(subjectId, name, assignedRoomType, okButton));
     name.textProperty().addListener(validation(subjectId, name, assignedRoomType, okButton));
-    desc.textProperty().addListener(validation(subjectId, name, assignedRoomType, okButton));
+    assignedRoomType
+        .valueProperty()
+        .addListener(validation(subjectId, name, assignedRoomType, okButton));
 
     dialog.getDialogPane().setContent(grid);
 
@@ -79,7 +99,7 @@ public class NewSubjectDialog {
   }
 
   private ChangeListener<String> validation(
-      TextField subjectId, TextField name, ComboBox assignedRoomType, Node okButton) {
+      TextField subjectId, TextField name, ComboBox<String> assignedRoomType, Node okButton) {
     return (observable, oldValue, newValue) -> {
       okButton.setDisable(
           (subjectId.getText().isEmpty()
