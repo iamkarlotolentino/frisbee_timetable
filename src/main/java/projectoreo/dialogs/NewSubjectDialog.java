@@ -6,9 +6,12 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import projectoreo.managers.DatabaseManager;
 import projectoreo.models.RoomType;
 import projectoreo.models.Subject;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 
 public class NewSubjectDialog {
@@ -47,20 +50,26 @@ public class NewSubjectDialog {
     TextField subjectId = new TextField();
     TextField name = new TextField();
     TextField desc = new TextField();
-    ComboBox<String> assignedRoomType = new ComboBox<>();
+    ComboBox<RoomType> assignedRoomType = new ComboBox<>();
 
     subjectId.setMinWidth(300d); // Increasing the size of the dialog
-    assignedRoomType.setValue("-select-");
-    assignedRoomType.getItems().add("LEC");
-    assignedRoomType.getItems().add("CMP-LAB");
-    assignedRoomType.getItems().add("BIO-LAB");
+    // TODO: Find a way to separate this to another thread
+    try {
+      ResultSet res = DatabaseManager.getInstance().getRoomTypeQueries().readAll();
+      while (res.next()) {
+        assignedRoomType.getItems().add(new RoomType(res.getInt("type_id"), res.getString("name")));
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    assignedRoomType.setValue(assignedRoomType.getItems().get(0));
 
     // Initialization if there is a passed subject data
     if (subject != null) {
       subjectId.setText(subject.getId());
       name.setText(subject.getName());
       desc.setText(subject.getDesc());
-      assignedRoomType.setValue(subject.getType().getType());
+      assignedRoomType.setValue(subject.getType());
     }
 
     grid.add(new Label("Subject ID"), 0, 0);
@@ -80,7 +89,10 @@ public class NewSubjectDialog {
     name.textProperty().addListener(validation(subjectId, name, assignedRoomType, okButton));
     assignedRoomType
         .valueProperty()
-        .addListener(validation(subjectId, name, assignedRoomType, okButton));
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              okButton.setDisable((subjectId.getText().isEmpty() || name.getText().isEmpty()));
+            });
 
     dialog.getDialogPane().setContent(grid);
 
@@ -92,19 +104,16 @@ public class NewSubjectDialog {
         dialogButton -> {
           if (dialogButton == controlButton) {
             return new Subject(
-                subjectId.getText(), name.getText(), desc.getText(), new RoomType(1, "Text"));
+                subjectId.getText(), name.getText(), desc.getText(), assignedRoomType.getValue(), -1);
           }
           return null;
         });
   }
 
   private ChangeListener<String> validation(
-      TextField subjectId, TextField name, ComboBox<String> assignedRoomType, Node okButton) {
+      TextField subjectId, TextField name, ComboBox<RoomType> assignedRoomType, Node okButton) {
     return (observable, oldValue, newValue) -> {
-      okButton.setDisable(
-          (subjectId.getText().isEmpty()
-              || name.getText().isEmpty()
-              || assignedRoomType.getValue().equals("-select-")));
+      okButton.setDisable((subjectId.getText().isEmpty() || name.getText().isEmpty()));
     };
   }
 

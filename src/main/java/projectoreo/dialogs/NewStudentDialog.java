@@ -5,8 +5,12 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import projectoreo.managers.DatabaseManager;
+import projectoreo.models.Section;
 import projectoreo.models.Student;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 
 public class NewStudentDialog {
@@ -38,11 +42,21 @@ public class NewStudentDialog {
     TextField firstName = new TextField();
     TextField middleName = new TextField();
     TextField lastName = new TextField();
-    ComboBox assignedSection = new ComboBox();
+    ComboBox<Section> assignedSection = new ComboBox<>();
 
     studentId.setMinWidth(300d);
-    assignedSection.setValue("-select-");
-    assignedSection.getItems().add("BSCS-1B");
+    // TODO: Put in separate execution service to prevent blocking the UI thread
+    try {
+      ResultSet res = DatabaseManager.getInstance().getSectionQueries().readSectionAll();
+      while (res.next()) {
+        assignedSection
+            .getItems()
+            .add(new Section(res.getInt("section_id"), res.getString("name")));
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    assignedSection.setValue(assignedSection.getItems().get(0));
 
     // Initialization if there is a passed subject data
     if (student != null) {
@@ -73,32 +87,32 @@ public class NewStudentDialog {
         .textProperty()
         .addListener(
             (observable, oldValue, newValue) ->
-                validation(studentId, firstName, middleName, lastName, assignedSection, okButton));
+                validation(studentId, firstName, lastName, okButton));
     firstName
         .textProperty()
         .addListener(
             (observable, oldValue, newValue) ->
-                validation(studentId, firstName, middleName, lastName, assignedSection, okButton));
+                validation(studentId, firstName, lastName, okButton));
     middleName
         .textProperty()
         .addListener(
             (observable, oldValue, newValue) ->
-                validation(studentId, firstName, middleName, lastName, assignedSection, okButton));
+                validation(studentId, firstName, lastName, okButton));
     lastName
         .textProperty()
         .addListener(
             (observable, oldValue, newValue) ->
-                validation(studentId, firstName, middleName, lastName, assignedSection, okButton));
+                validation(studentId, firstName, lastName, okButton));
     assignedSection
         .valueProperty()
         .addListener(
             (observable, oldValue, newValue) ->
-                validation(studentId, firstName, middleName, lastName, assignedSection, okButton));
+                validation(studentId, firstName, lastName, okButton));
 
     dialog.getDialogPane().setContent(grid);
 
     // Request focus on the first field
-    Platform.runLater(() -> studentId.requestFocus());
+    Platform.runLater(studentId::requestFocus);
 
     // Storing information gathered
     dialog.setResultConverter(
@@ -109,26 +123,23 @@ public class NewStudentDialog {
                 firstName.getText(),
                 middleName.getText(),
                 lastName.getText(),
-                1);
+                assignedSection.getValue());
           } else return null;
         });
   }
 
   private void validation(
-      TextField studentId,
-      TextField firstName,
-      TextField middleName,
-      TextField lastName,
-      ComboBox assignedSection,
-      Node okButton) {
+          TextField studentId,
+          TextField firstName,
+          TextField lastName,
+          Node okButton) {
     okButton.setDisable(
         (studentId.getText().isEmpty()
             || firstName.getText().isEmpty()
-            || lastName.getText().isEmpty()
-            || assignedSection.getValue().equals("-select-")));
+            || lastName.getText().isEmpty()));
   }
 
-  public Optional<Student> showAndWait() {
+  public Optional showAndWait() {
     return dialog.showAndWait();
   }
 }

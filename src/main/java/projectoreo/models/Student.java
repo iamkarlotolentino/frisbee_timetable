@@ -6,17 +6,17 @@ public class Student {
     private String firstName;
     private String middleName;
     private String lastName;
-    private int sectionId;
+    private Section sectionId;
 
     public Student() {
     this.id = "unspecified";
         this.firstName = "<none>";
         this.middleName = "<none>";
         this.lastName = "<none>";
-        sectionId = -1;
+        sectionId = new Section();
     }
 
-    public Student(String id, String firstName, String middleName, String lastName, int sectionId) {
+    public Student(String id, String firstName, String middleName, String lastName, Section sectionId) {
         this.id = id;
         this.firstName = firstName;
         this.middleName = middleName;
@@ -56,18 +56,18 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public int getSectionId() {
+    public Section getSectionId() {
         return sectionId;
     }
 
-    public void setSectionId(int sectionId) {
+    public void setSectionId(Section sectionId) {
         this.sectionId = sectionId;
     }
 
     @Override
     public String toString() {
         return "Student{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", middleName='" + middleName + '\'' +
                 ", lastName='" + lastName + '\'' +

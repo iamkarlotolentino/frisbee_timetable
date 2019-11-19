@@ -56,6 +56,7 @@ public class DatabaseManager {
       defineRoomTime();
       defineRoomTimeslot();
       defineSubject();
+      defineSectionTakenSubjects();
     }
   }
 
@@ -195,6 +196,20 @@ public class DatabaseManager {
     return false;
   }
 
+  public boolean defineSectionTakenSubjects() {
+    try {
+      ps = con.prepareStatement(DDL_INI.get("ddl", "define_section_taken_subjects"));
+      int state = ps.executeUpdate();
+      if (state > 0) {
+        DB_LOGGER.info("(sectiontakensubjects) table is created in the database.");
+        return true;
+      }
+    } catch (SQLException e) {
+      DB_LOGGER.info("(sectiontakensubjects) table is already existing in the database.");
+    }
+    return false;
+  }
+
   public boolean isConnected() {
     return (con != null);
   }
@@ -213,6 +228,26 @@ public class DatabaseManager {
 
   public SubjectQueries getSubjectQueries() {
     return subjectQueries;
+  }
+
+  public void setSubjectQueries(SubjectQueries subjectQueries) {
+    this.subjectQueries = subjectQueries;
+  }
+
+  public SectionQueries getSectionQueries() {
+    return sectionQueries;
+  }
+
+  public void setSectionQueries(SectionQueries sectionQueries) {
+    this.sectionQueries = sectionQueries;
+  }
+
+  public RoomTypeQueries getRoomTypeQueries() {
+    return roomTypeQueries;
+  }
+
+  public void setRoomTypeQueries(RoomTypeQueries roomTypeQueries) {
+    this.roomTypeQueries = roomTypeQueries;
   }
 
   static class LogUtils {
@@ -244,7 +279,7 @@ public class DatabaseManager {
       ps.setString(2, student.getFirstName());
       ps.setString(3, student.getMiddleName());
       ps.setString(4, student.getLastName());
-      ps.setInt(5, student.getSectionId());
+      ps.setInt(5, student.getSectionId().getId());
       return ps.executeUpdate();
     }
 
@@ -264,7 +299,10 @@ public class DatabaseManager {
         student.setFirstName(res.getString("first_name"));
         student.setMiddleName(res.getString("middle_name"));
         student.setLastName(res.getString("last_name"));
-        student.setSectionId(res.getInt("section__fk"));
+        student.setSectionId(
+            DatabaseManager.getInstance()
+                .getSectionQueries()
+                .readSectionById(res.getInt("section__fk")));
       }
       return student;
     }
@@ -290,7 +328,7 @@ public class DatabaseManager {
       ps.setString(2, student.getFirstName());
       ps.setString(3, student.getMiddleName());
       ps.setString(4, student.getLastName());
-      ps.setInt(5, student.getSectionId());
+      ps.setInt(5, student.getSectionId().getId());
       ps.setString(6, student.getId());
       return ps.executeUpdate();
     }
@@ -307,7 +345,7 @@ public class DatabaseManager {
     }
   } // -- End of StudentQueries
 
-  class SectionQueries {
+  public class SectionQueries {
     private Ini SECTION_INI;
 
     public SectionQueries() {
@@ -334,12 +372,11 @@ public class DatabaseManager {
       return ps.executeQuery();
     }
 
-    private Section readSectionById(Section section) throws SQLException {
+    public Section readSectionById(int id) throws SQLException {
       ps = con.prepareStatement(SECTION_INI.get("read", "read_all_byid"));
-      ps.setInt(1, section.getId());
+      ps.setInt(1, id);
       res = ps.executeQuery();
-      section.setName(res.getString("name"));
-      return section;
+      return new Section(res.getInt("section_id"), res.getString("name"));
     }
 
     private int updateSectionById(Section section) throws SQLException {

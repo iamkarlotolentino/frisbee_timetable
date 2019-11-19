@@ -1,6 +1,5 @@
 package projectoreo.activities.data_collection;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -44,13 +43,8 @@ public class SubjectTabController extends DataCollectionTemplate {
     super.setup();
     idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
     nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-    typeColumn.setCellValueFactory(
-        param -> {
-          if (param.getValue() != null && param.getValue().getType() != null) {
-            return new SimpleStringProperty(param.getValue().getType().getType());
-          } else return new SimpleStringProperty("<invalid>");
-        });
-    //    sectionsUsedColumn.setCellValueFactory(new PropertyValueFactory<>(""));
+    typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+    sectionsUsedColumn.setCellValueFactory(new PropertyValueFactory<>("sectionsUsed"));
   }
 
   @Override
@@ -146,7 +140,8 @@ public class SubjectTabController extends DataCollectionTemplate {
                         res.getString("subject_id"),
                         res.getString("subject_name"),
                         res.getString("desc"),
-                        new RoomType(res.getInt("type_id"), res.getString("room_name"))));
+                        new RoomType(res.getInt("type_id"), res.getString("room_type")),
+                        res.getInt("total_count")));
               }
               res.close();
             } catch (SQLException e) {

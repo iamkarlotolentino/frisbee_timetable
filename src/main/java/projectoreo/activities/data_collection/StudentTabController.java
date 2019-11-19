@@ -17,6 +17,7 @@ import projectoreo.activities.front.FrontController;
 import projectoreo.dialogs.DialogAlert;
 import projectoreo.dialogs.DialogType;
 import projectoreo.dialogs.NewStudentDialog;
+import projectoreo.models.Section;
 import projectoreo.models.Student;
 import projectoreo.utils.ControllersDispatcher;
 
@@ -43,7 +44,7 @@ public class StudentTabController extends DataCollectionTemplate {
   @FXML private TableColumn<Student, String> middleNameColumn;
   @FXML private TableColumn<Student, String> lastNameColumn;
 
-  public StudentTabController() {}
+  StudentTabController() {}
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -197,7 +198,7 @@ public class StudentTabController extends DataCollectionTemplate {
                         res.getString("first_name"),
                         res.getString("middle_name"),
                         res.getString("last_name"),
-                        res.getInt("section__fk")));
+                        DB_MANAGER.getSectionQueries().readSectionById(res.getInt("section__fk"))));
               }
               res.close();
             } catch (SQLException e) {
@@ -232,8 +233,8 @@ public class StudentTabController extends DataCollectionTemplate {
                           csvRecord.get(0),
                           csvRecord.get(1),
                           csvRecord.get(2),
-                          csvRecord.get(2),
-                          1));
+                          csvRecord.get(3),
+                          new Section(Integer.valueOf(csvRecord.get(4)), "")));
             }
             return true;
           }
@@ -256,16 +257,7 @@ public class StudentTabController extends DataCollectionTemplate {
         });
   }
 
-  private void promptDuplicatedError(SQLException e) {
-    // Duplicate studentID as enforced by constraints
-    if (e.getErrorCode() == 19) {
-      DialogAlert.requestDuplicateError("[STUDENT_ID]");
-    } else {
-      e.printStackTrace();
-    }
-  }
-
-  public AnchorPane getStudentTab() {
+  AnchorPane getStudentTab() {
     return contentPane;
   }
 }
