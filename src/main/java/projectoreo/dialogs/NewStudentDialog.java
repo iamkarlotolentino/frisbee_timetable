@@ -67,7 +67,7 @@ public class NewStudentDialog {
     create.setOnAction(
         click -> {
           if (!isFieldsEmpty()) {
-            if (middleName.getText().isEmpty()) middleName.setText("unspecified");
+            if (middleName.getText().isEmpty()) middleName.setText("<none>");
 
             studentData =
                 new Student(

@@ -10,9 +10,9 @@ public class Student {
 
     public Student() {
     this.id = "unspecified";
-        this.firstName = "unspecified";
-        this.middleName = "unspecified";
-        this.lastName = "unspecified";
+        this.firstName = "<none>";
+        this.middleName = "<none>";
+        this.lastName = "<none>";
         sectionId = -1;
     }
 

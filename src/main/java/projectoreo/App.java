@@ -36,7 +36,7 @@ public class App extends Application {
           this.primaryStage.show();
         });
     intent.start();
-  }
+}
 
   public static void main(String[] args) {
     launch(args);

@@ -27,6 +27,9 @@ public class DatabaseManager {
   private static ResultSet res = null;
 
   private StudentQueries studentQueries = new StudentQueries();
+  private RoomTypeQueries roomTypeQueries = new RoomTypeQueries();
+  private SubjectQueries subjectQueries = new SubjectQueries();
+  private SectionQueries sectionQueries = new SectionQueries();
 
   private Ini DDL_INI;
 
@@ -54,7 +57,6 @@ public class DatabaseManager {
       defineRoomTimeslot();
       defineSubject();
     }
-
   }
 
   public static DatabaseManager getInstance() {
@@ -209,6 +211,10 @@ public class DatabaseManager {
     return studentQueries;
   }
 
+  public SubjectQueries getSubjectQueries() {
+    return subjectQueries;
+  }
+
   static class LogUtils {
     public static void failLoadIni(String fileName) {
       DB_LOGGER.error(
@@ -306,9 +312,9 @@ public class DatabaseManager {
 
     public SectionQueries() {
       try {
-        SECTION_INI = new Ini(new File("src/main/res/sql/sectionsql.ini"));
+        SECTION_INI = new Ini(new File(ResourceLoader.getResource("sql/sectionsql.ini").toURI()));
         LogUtils.successLoadIni("sectionsql.ini");
-      } catch (IOException e) {
+      } catch (IOException | URISyntaxException e) {
         LogUtils.failLoadIni("sectionsql.ini");
       }
     }
@@ -362,23 +368,24 @@ public class DatabaseManager {
     // ---- End of SectionQueries
   } // -- End of SectionQueries
 
-  class SubjectQueries {
+  public class SubjectQueries {
     private Ini SUBJECT_INI;
 
     public SubjectQueries() {
       try {
-        SUBJECT_INI = new Ini(new File("src/main/res/sql/subjectsql.ini"));
+        SUBJECT_INI = new Ini(new File(ResourceLoader.getResource("sql/subjectsql.ini").toURI()));
         LogUtils.successLoadIni("subjectsql.ini");
-      } catch (IOException e) {
+      } catch (IOException | URISyntaxException e) {
         LogUtils.failLoadIni("subjectsql.ini");
       }
     }
 
     public int create(Subject subject) throws SQLException {
       ps = con.prepareStatement(SUBJECT_INI.get("create", "create_subject"));
-      ps.setString(1, subject.getName());
-      ps.setString(2, subject.getDesc());
-      ps.setInt(3, subject.getType());
+      ps.setString(1, subject.getId());
+      ps.setString(2, subject.getName());
+      ps.setString(3, subject.getDesc());
+      ps.setInt(4, subject.getType().getId());
       return ps.executeUpdate();
     }
 
@@ -394,10 +401,10 @@ public class DatabaseManager {
 
       Subject subject = new Subject();
       while (!res.next()) {
-        subject.setId(res.getInt("subject_id"));
+        subject.setId(res.getString("subject_id"));
         subject.setName(res.getString("name"));
         subject.setDesc(res.getString("desc"));
-        subject.setType(res.getInt("type__fk"));
+        subject.setType(roomTypeQueries.readById(res.getInt("type__fk")));
       }
       return subject;
     }
@@ -411,7 +418,7 @@ public class DatabaseManager {
       ps = con.prepareStatement(SUBJECT_INI.get("update", "update_all_by_id"));
       ps.setString(1, subject.getName());
       ps.setString(2, subject.getDesc());
-      ps.setInt(3, subject.getType());
+      ps.setInt(3, subject.getType().getId());
       return ps.executeUpdate();
     }
 
@@ -426,9 +433,9 @@ public class DatabaseManager {
 
     public RoomQueries() {
       try {
-        ROOM_INI = new Ini(new File("src/main/res/sql/roomsql.ini"));
+        ROOM_INI = new Ini(new File(ResourceLoader.getResource("sql/roomsql.ini").toURI()));
         LogUtils.successLoadIni("roomsql.ini");
-      } catch (IOException e) {
+      } catch (IOException | URISyntaxException e) {
         LogUtils.failLoadIni("roomsql.ini");
       }
     }
@@ -495,9 +502,9 @@ public class DatabaseManager {
 
     public RoomDayQueries() {
       try {
-        ROOMDAY_INI = new Ini(new File("src/main/res/sql/roomdaysql.ini"));
+        ROOMDAY_INI = new Ini(new File(ResourceLoader.getResource("sql/roomdaysql.ini").toURI()));
         LogUtils.successLoadIni("roomdaysql.ini");
-      } catch (IOException e) {
+      } catch (IOException | URISyntaxException e) {
         LogUtils.failLoadIni("roomdaysql.ini");
       }
     }
@@ -550,9 +557,9 @@ public class DatabaseManager {
 
     public RoomTimeQueries() {
       try {
-        ROOMTIME_INI = new Ini(new File("src/main/res/sql/roomtimesql.ini"));
+        ROOMTIME_INI = new Ini(new File(ResourceLoader.getResource("sql/roomtimesql.ini").toURI()));
         LogUtils.successLoadIni("roomtimesql.ini");
-      } catch (IOException e) {
+      } catch (IOException | URISyntaxException e) {
         LogUtils.failLoadIni("roomtimesql.ini");
       }
     }
@@ -605,9 +612,10 @@ public class DatabaseManager {
 
     public RoomTimeslotQueries() {
       try {
-        ROOMTIMESLOT_INI = new Ini(new File("src/main/res/sql/roomtimeslotsql.ini"));
+        ROOMTIMESLOT_INI =
+            new Ini(new File(ResourceLoader.getResource("sql/roomtimeslotsql.ini").toURI()));
         LogUtils.successLoadIni("roomtimeslotsql.ini");
-      } catch (IOException e) {
+      } catch (IOException | URISyntaxException e) {
         LogUtils.failLoadIni("roomtimeslotsql.ini");
       }
     }
@@ -684,14 +692,14 @@ public class DatabaseManager {
     // TODO: Continue the other delete functions
   } // -- End of RoomTimeslotQueries
 
-  class RoomTypeQueries {
+  public class RoomTypeQueries {
     private Ini ROOMTYPE_INI;
 
     public RoomTypeQueries() {
       try {
-        ROOMTYPE_INI = new Ini(new File("src/main/res/sql/roomtypesql.ini"));
+        ROOMTYPE_INI = new Ini(new File(ResourceLoader.getResource("sql/roomtypesql.ini").toURI()));
         LogUtils.successLoadIni("roomtypesql.ini");
-      } catch (IOException e) {
+      } catch (IOException | URISyntaxException e) {
         LogUtils.failLoadIni("roomtypesql.ini");
       }
     }
@@ -744,9 +752,11 @@ public class DatabaseManager {
 
     public SectionTakenSubjectsQueries() {
       try {
-        STS_INI = new Ini(new File("src/main/res/sql/sectiontakensubjects.ini"));
+        STS_INI =
+            new Ini(
+                new File(ResourceLoader.getResource("sql/sectiontakensubjectssql.ini").toURI()));
         LogUtils.successLoadIni("sectiontakensubjectssql.ini");
-      } catch (IOException e) {
+      } catch (IOException | URISyntaxException e) {
         LogUtils.failLoadIni("sectiontakensubjects.ini");
       }
     }

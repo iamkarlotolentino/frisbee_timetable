@@ -4,10 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import projectoreo.activities.data_collection.DataCollectionController;
@@ -29,6 +26,7 @@ public class FrontController implements Initializable, Controller {
   @FXML private Button about;
 
   @FXML private Label currentStatus;
+  @FXML private ProgressIndicator progress;
 
   private DataCollectionController dataCollectionController;
 
@@ -90,8 +88,13 @@ public class FrontController implements Initializable, Controller {
     rootPane.setCenter(contentPane);
   }
 
-  public void setCurrentStatus(String status) {
+  public void setCurrentStatus(String status, boolean isWorking) {
     currentStatus.setText(status);
+    if (isWorking) {
+      progress.setVisible(true);
+    } else {
+      progress.setVisible(false);
+    }
   }
 
   public Label getCurrentStatus() {
