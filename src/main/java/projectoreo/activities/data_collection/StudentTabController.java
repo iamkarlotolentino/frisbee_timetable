@@ -13,6 +13,8 @@ import javafx.stage.FileChooser;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import projectoreo.activities.front.FrontController;
 import projectoreo.dialogs.DialogAlert;
 import projectoreo.dialogs.DialogType;
@@ -32,6 +34,19 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class StudentTabController extends DataCollectionTemplate {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(StudentTabController.class);
+
+  private static String STUDENT_SELECTED_DELETE = "Selected student has been deleted";
+  private static String STUDENT_DELETE_ALL = "All data in the student has been wiped";
+  private static String STUDENT_NEW = "New student data has been added";
+  private static String STUDENT_EDIT = "Selected student has been updated";
+  private static String STUDENT_WORK_REFRESH_START =
+      "Populating student data to the table. Working...";
+  private static String STUDENT_WORK_REFRESH_FINISH =
+      "Successfully populated all student data in the table. Done!";
+  private static String STUDENT_WORK_REFRESH_FAILED =
+      "We have encountered an error while populating student data. Failed!";
 
   private Task<ObservableList<Student>> loadStudentTask;
   private Task<Boolean> importCSVTask;
@@ -83,7 +98,7 @@ public class StudentTabController extends DataCollectionTemplate {
                 try {
                   DB_MANAGER.getStudentQueries().create(studentData);
                   tableView.getItems().add(studentData);
-                  setCurrentStatus("New student data has been added", false);
+                  setCurrentStatus(STUDENT_NEW, false);
                 } catch (SQLException e) {
                   if (e.getErrorCode() == 19) DialogAlert.requestDuplicateError("[STUDENT_ID]");
                   else e.printStackTrace();
@@ -104,7 +119,7 @@ public class StudentTabController extends DataCollectionTemplate {
                     tableView
                         .getItems()
                         .set(tableView.getSelectionModel().getSelectedIndex(), studentData);
-                    setCurrentStatus("Particular student has been updated.", false);
+                    setCurrentStatus(STUDENT_EDIT, false);
                   } catch (SQLException e) {
                     if (e.getErrorCode() == 19) DialogAlert.requestDuplicateError("[STUDENT_ID]");
                     else e.printStackTrace();
@@ -118,11 +133,19 @@ public class StudentTabController extends DataCollectionTemplate {
             Optional<ButtonType> result = DialogAlert.requestDeleteSelectedConfirmation();
             if (result.get() == ButtonType.OK) {
               try {
-                DB_MANAGER
-                    .getStudentQueries()
-                    .deleteById(tableView.getSelectionModel().getSelectedItem().getId());
-                tableView.getItems().remove(tableView.getSelectionModel().getSelectedIndex());
-                setCurrentStatus("Particular student has been deleted from the database.", false);
+                // If did not pushed through
+                if (DB_MANAGER
+                        .getStudentQueries()
+                        .deleteById(tableView.getSelectionModel().getSelectedItem().getId())
+                    != 1) {
+                  DialogAlert.requestSelectedNotUpdatedWarning();
+                  setCurrentStatus(
+                      "Please use force-refresh first to delete the new item (selected item)",
+                      false);
+                } else {
+                  tableView.getItems().remove(tableView.getSelectionModel().getSelectedIndex());
+                  setCurrentStatus(STUDENT_SELECTED_DELETE, false);
+                }
               } catch (SQLException e) {
                 e.printStackTrace();
               }
@@ -156,11 +179,12 @@ public class StudentTabController extends DataCollectionTemplate {
         });
     deleteAllData.setOnAction(
         click -> {
-          Optional<ButtonType> result = DialogAlert.requestDeleteSelectedConfirmation();
+          Optional<ButtonType> result = DialogAlert.requestDeleteAllConfirmation();
           if (result.get() == ButtonType.OK) {
             try {
               DB_MANAGER.getStudentQueries().deleteAll();
               tableView.getItems().clear();
+              setCurrentStatus(STUDENT_DELETE_ALL, false);
             } catch (SQLException e) {
               e.printStackTrace();
             }
@@ -183,11 +207,12 @@ public class StudentTabController extends DataCollectionTemplate {
   }
 
   private void loadStudentTask() {
-    setCurrentStatus("Populating student data in the table", true);
+    refresh.setDisable(true);
+    setCurrentStatus(STUDENT_WORK_REFRESH_START, true);
     loadStudentTask =
         new Task<ObservableList<Student>>() {
           @Override
-          protected ObservableList<Student> call() throws Exception {
+          protected ObservableList<Student> call() {
             ObservableList<Student> studentList = FXCollections.observableArrayList();
             try {
               ResultSet res = DB_MANAGER.getStudentQueries().readAll();
@@ -207,10 +232,16 @@ public class StudentTabController extends DataCollectionTemplate {
             return studentList;
           }
         };
+    loadStudentTask.setOnFailed(
+        failed -> {
+          refresh.setDisable(false);
+          setCurrentStatus(STUDENT_WORK_REFRESH_FAILED, false);
+        });
     loadStudentTask.setOnSucceeded(
         succeeded -> {
+          refresh.setDisable(false);
           tableView.setItems(loadStudentTask.getValue());
-          setCurrentStatus("Successfully populated all students data", false);
+          setCurrentStatus(STUDENT_WORK_REFRESH_FINISH, false);
         });
   }
 
@@ -234,13 +265,14 @@ public class StudentTabController extends DataCollectionTemplate {
                           csvRecord.get(1),
                           csvRecord.get(2),
                           csvRecord.get(3),
-                          new Section(Integer.valueOf(csvRecord.get(4)), "")));
+                          new Section(Integer.valueOf(csvRecord.get(4)), "", 0)));
             }
             return true;
           }
         };
     importCSVTask.setOnFailed(
         failed -> {
+          LOGGER.error(failed.getSource().getMessage(), failed.getSource().getException());
           DialogAlert.requestDuplicateError("[STUDENT_ID]");
           importCSVTask.cancel();
           setCurrentStatus("Failed to import CSV file", false);

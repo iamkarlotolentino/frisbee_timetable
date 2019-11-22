@@ -30,7 +30,8 @@ public class DatabaseManager {
   private RoomTypeQueries roomTypeQueries = new RoomTypeQueries();
   private SubjectQueries subjectQueries = new SubjectQueries();
   private SectionQueries sectionQueries = new SectionQueries();
-
+  private SectionTakenSubjectsQueries takenSubjectsQueries = new SectionTakenSubjectsQueries();
+  private RoomQueries roomQueries = new RoomQueries();
   private Ini DDL_INI;
 
   private DatabaseManager() {
@@ -63,6 +64,14 @@ public class DatabaseManager {
   public static DatabaseManager getInstance() {
     if (instance == null) instance = new DatabaseManager();
     return instance;
+  }
+
+  public SectionTakenSubjectsQueries getTakenSubjectsQueries() {
+    return takenSubjectsQueries;
+  }
+
+  public void setTakenSubjectsQueries(SectionTakenSubjectsQueries takenSubjectsQueries) {
+    this.takenSubjectsQueries = takenSubjectsQueries;
   }
 
   // Pass the properties file URL
@@ -294,7 +303,7 @@ public class DatabaseManager {
       res = ps.executeQuery();
 
       Student student = new Student();
-      while (!res.next()) {
+      while (res.next()) {
         student.setId(id);
         student.setFirstName(res.getString("first_name"));
         student.setMiddleName(res.getString("middle_name"));
@@ -319,6 +328,12 @@ public class DatabaseManager {
 
     public ResultSet readByLastName() throws SQLException {
       ps = con.prepareStatement(STUDENT_INI.get("read", "read_bylastname"));
+      return ps.executeQuery();
+    }
+
+    public ResultSet readBySection(int sectionId) throws SQLException {
+      ps = con.prepareStatement(STUDENT_INI.get("read", "read_bysection"));
+      ps.setInt(1, sectionId);
       return ps.executeQuery();
     }
 
@@ -357,17 +372,13 @@ public class DatabaseManager {
       }
     }
 
-    public Ini getSECTION_INI() {
-      return SECTION_INI;
-    }
-
-    public int createSection(Section section) throws SQLException {
+    public int create(Section section) throws SQLException {
       ps = con.prepareStatement(SECTION_INI.get("create", "create_section"));
       ps.setString(1, section.getName());
       return ps.executeUpdate();
     }
 
-    public ResultSet readSectionAll() throws SQLException {
+    public ResultSet readAll() throws SQLException {
       ps = con.prepareStatement(SECTION_INI.get("read", "read_all"));
       return ps.executeQuery();
     }
@@ -376,30 +387,33 @@ public class DatabaseManager {
       ps = con.prepareStatement(SECTION_INI.get("read", "read_all_byid"));
       ps.setInt(1, id);
       res = ps.executeQuery();
-      return new Section(res.getInt("section_id"), res.getString("name"));
+
+      // TODO: Take note the studentsCount if we'll consider modifying the query instead.
+      return new Section(res.getInt("section_id"), res.getString("name"), 0);
     }
 
-    private int updateSectionById(Section section) throws SQLException {
+    public int updateNameById(Section section) throws SQLException {
+
       ps = con.prepareStatement(SECTION_INI.get("update", "update_name_byid"));
       ps.setString(1, section.getName());
       ps.setInt(2, section.getId());
       return ps.executeUpdate();
     }
 
-    public int deleteSectionAll() throws SQLException {
+    public int deleteAll() throws SQLException {
       ps = con.prepareStatement(SECTION_INI.get("delete", "delete_all"));
       return ps.executeUpdate();
     }
 
-    private int deleteSectionById(Section section) throws SQLException {
+    public int deleteById(int id) throws SQLException {
       ps = con.prepareStatement(SECTION_INI.get("delete", "delete_byid"));
-      ps.setInt(1, section.getId());
+      ps.setInt(1, id);
       return ps.executeUpdate();
     }
 
-    private int deleteSectionByName(Section section) throws SQLException {
+    public int deleteSectionByName(int id) throws SQLException {
       ps = con.prepareStatement(SECTION_INI.get("delete", "delete_byname"));
-      ps.setString(1, section.getName());
+      ps.setInt(1, id);
       return ps.executeUpdate();
     }
     // ---- End of SectionQueries
@@ -431,13 +445,13 @@ public class DatabaseManager {
       return ps.executeQuery();
     }
 
-    public Subject readById(int id) throws SQLException {
+    public Subject readById(String id) throws SQLException {
       ps = con.prepareStatement(SUBJECT_INI.get("read", "read_all_byid"));
-      ps.setInt(1, id);
+      ps.setString(1, id);
       res = ps.executeQuery();
 
       Subject subject = new Subject();
-      while (!res.next()) {
+      while (res.next()) {
         subject.setId(res.getString("subject_id"));
         subject.setName(res.getString("name"));
         subject.setDesc(res.getString("desc"));
@@ -456,6 +470,7 @@ public class DatabaseManager {
       ps.setString(1, subject.getName());
       ps.setString(2, subject.getDesc());
       ps.setInt(3, subject.getType().getId());
+      ps.setString(4, subject.getId());
       return ps.executeUpdate();
     }
 
@@ -471,7 +486,7 @@ public class DatabaseManager {
     }
   } // -- End of SubjectQueries
 
-  class RoomQueries {
+  public class RoomQueries {
     private Ini ROOM_INI;
 
     public RoomQueries() {
@@ -486,7 +501,7 @@ public class DatabaseManager {
     public int create(Room room) throws SQLException {
       ps = con.prepareStatement(ROOM_INI.get("create", "create_room"));
       ps.setString(1, room.getName());
-      ps.setInt(2, room.getType());
+      ps.setInt(2, room.getType().getId());
       return ps.executeUpdate();
     }
 
@@ -501,10 +516,10 @@ public class DatabaseManager {
       res = ps.executeQuery();
 
       Room room = new Room();
-      while (!res.next()) {
+      while (res.next()) {
         room.setId(id);
         room.setName(res.getString("name"));
-        room.setType(res.getInt("type__fk"));
+        room.setType(roomTypeQueries.readById(res.getInt("type__fk")));
       }
       return room;
     }
@@ -518,7 +533,8 @@ public class DatabaseManager {
     public int updateAllById(Room room) throws SQLException {
       ps = con.prepareStatement(ROOM_INI.get("update", "update_all_byid"));
       ps.setString(1, room.getName());
-      ps.setInt(2, room.getType());
+      ps.setInt(2, room.getType().getId());
+      ps.setInt(3, room.getId());
       return ps.executeUpdate();
     }
 
@@ -569,7 +585,7 @@ public class DatabaseManager {
       res = ps.executeQuery();
 
       RoomDay roomDay = new RoomDay();
-      while (!res.next()) {
+      while (res.next()) {
         roomDay.setId(id);
         roomDay.setDay(res.getString("text"));
       }
@@ -624,7 +640,7 @@ public class DatabaseManager {
       res = ps.executeQuery();
 
       RoomTime roomTime = new RoomTime();
-      while (!res.next()) {
+      while (res.next()) {
         roomTime.setId(res.getInt("id"));
         roomTime.setTime(res.getString("time"));
       }
@@ -683,7 +699,7 @@ public class DatabaseManager {
       res = ps.executeQuery();
 
       RoomTimeslot roomTimeslot = new RoomTimeslot();
-      while (!res.next()) {
+      while (res.next()) {
         roomTimeslot.setId(id);
         roomTimeslot.setSectionId(res.getInt("section__fk"));
         roomTimeslot.setRoomId(res.getInt("room__fk"));
@@ -764,7 +780,7 @@ public class DatabaseManager {
       res = ps.executeQuery();
 
       RoomType roomType = new RoomType();
-      while (!res.next()) {
+      while (res.next()) {
         roomType.setId(id);
         roomType.setType(res.getString("name"));
       }
@@ -790,7 +806,7 @@ public class DatabaseManager {
     }
   } // -- End of RoomTypeQueries
 
-  class SectionTakenSubjectsQueries {
+  public class SectionTakenSubjectsQueries {
     private Ini STS_INI;
 
     public SectionTakenSubjectsQueries() {
@@ -807,7 +823,7 @@ public class DatabaseManager {
     public int create(SectionTakenSubjects takenSubjects) throws SQLException {
       ps = con.prepareStatement(STS_INI.get("create", "insert_sts"));
       ps.setInt(1, takenSubjects.getSectionId());
-      ps.setInt(2, takenSubjects.getSubjectId());
+      ps.setString(2, takenSubjects.getSubjectId());
       return ps.executeUpdate();
     }
 
@@ -822,12 +838,24 @@ public class DatabaseManager {
       res = ps.executeQuery();
 
       SectionTakenSubjects takenSubjects = new SectionTakenSubjects();
-      while (!res.next()) {
+      while (res.next()) {
         takenSubjects.setId(id);
         takenSubjects.setSectionId(res.getInt("section__fk"));
-        takenSubjects.setSubjectId(res.getInt("subject__fk"));
+        takenSubjects.setSubjectId(res.getString("subject__fk"));
       }
       return takenSubjects;
+    }
+
+    public ResultSet readCurrentSubjects(int id) throws SQLException {
+      ps = con.prepareStatement(STS_INI.get("read", "read_currentsubjects"));
+      ps.setInt(1, id);
+      return ps.executeQuery();
+    }
+
+    public ResultSet readAvailableSubjects(int id) throws SQLException {
+      ps = con.prepareStatement(STS_INI.get("read", "read_availablesubjects"));
+      ps.setInt(1, id);
+      return ps.executeQuery();
     }
 
     // TODO: Place here the query which finds which subject has been used and are not.
@@ -835,7 +863,7 @@ public class DatabaseManager {
     public int updateAllById(SectionTakenSubjects takenSubjects) throws SQLException {
       ps = con.prepareStatement(STS_INI.get("update", "update_all_byid"));
       ps.setInt(1, takenSubjects.getSectionId());
-      ps.setInt(2, takenSubjects.getSubjectId());
+      ps.setString(2, takenSubjects.getSubjectId());
       ps.setInt(3, takenSubjects.getId());
       return ps.executeUpdate();
     }
@@ -847,10 +875,23 @@ public class DatabaseManager {
       return ps.executeUpdate();
     }
 
-    public int deleteById(int id) throws SQLException {
+    public int deleteSubjectFromSection(int sectionId, String subjectId) throws SQLException {
       ps = con.prepareStatement(STS_INI.get("delete", "delete_byid"));
-      ps.setInt(1, id);
+      ps.setInt(1, sectionId);
+      ps.setString(2, subjectId);
       return ps.executeUpdate();
     }
   } // -- End of SectionTakenSubjectsQueries
+
+  public void setStudentQueries(StudentQueries studentQueries) {
+    this.studentQueries = studentQueries;
+  }
+
+  public RoomQueries getRoomQueries() {
+    return roomQueries;
+  }
+
+  public void setRoomQueries(RoomQueries roomQueries) {
+    this.roomQueries = roomQueries;
+  }
 }

@@ -104,7 +104,11 @@ public class NewSubjectDialog {
         dialogButton -> {
           if (dialogButton == controlButton) {
             return new Subject(
-                subjectId.getText(), name.getText(), desc.getText(), assignedRoomType.getValue(), -1);
+                subjectId.getText(),
+                name.getText(),
+                desc.getText(),
+                assignedRoomType.getValue(),
+                0);
           }
           return null;
         });

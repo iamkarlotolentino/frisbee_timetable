@@ -47,11 +47,13 @@ public class NewStudentDialog {
     studentId.setMinWidth(300d);
     // TODO: Put in separate execution service to prevent blocking the UI thread
     try {
-      ResultSet res = DatabaseManager.getInstance().getSectionQueries().readSectionAll();
+      ResultSet res = DatabaseManager.getInstance().getSectionQueries().readAll();
       while (res.next()) {
         assignedSection
             .getItems()
-            .add(new Section(res.getInt("section_id"), res.getString("name")));
+            .add(
+                new Section(
+                    res.getInt("section_id"), res.getString("name"), res.getInt("students_count")));
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -117,22 +119,19 @@ public class NewStudentDialog {
     // Storing information gathered
     dialog.setResultConverter(
         dialogButton -> {
-          if (dialogButton == controlButton) {
+          if (dialogButton == controlButton)
             return new Student(
                 studentId.getText(),
                 firstName.getText(),
                 middleName.getText(),
                 lastName.getText(),
                 assignedSection.getValue());
-          } else return null;
+          return null;
         });
   }
 
   private void validation(
-          TextField studentId,
-          TextField firstName,
-          TextField lastName,
-          Node okButton) {
+      TextField studentId, TextField firstName, TextField lastName, Node okButton) {
     okButton.setDisable(
         (studentId.getText().isEmpty()
             || firstName.getText().isEmpty()

@@ -3,16 +3,16 @@ package projectoreo.models;
 public class Room {
 
     private int id;
-    private int type;
+    private RoomType type;
     private String name;
 
     public Room() {
         this.id = -1;
-        this.type = -1;
-        this.name = "unspecified";
+        this.type = new RoomType();
+        this.name = "";
     }
 
-    public Room(int id, int type, String name) {
+    public Room(int id, String name, RoomType type) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -26,11 +26,11 @@ public class Room {
         this.id = id;
     }
 
-    public int getType() {
+    public RoomType getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(RoomType type) {
         this.type = type;
     }
 

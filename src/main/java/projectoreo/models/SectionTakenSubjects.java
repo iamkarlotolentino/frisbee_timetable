@@ -4,15 +4,15 @@ public class SectionTakenSubjects {
 
     private int id;
     private int sectionId;
-    private int subjectId;
+    private String subjectId;
 
     public SectionTakenSubjects() {
         this.id = -1;
         this.sectionId = -1;
-        this.subjectId = -1;
+        this.subjectId = "";
     }
 
-    public SectionTakenSubjects(int id, int sectionId, int subjectId) {
+    public SectionTakenSubjects(int id, int sectionId, String subjectId) {
         this.id = id;
         this.sectionId = sectionId;
         this.subjectId = subjectId;
@@ -34,11 +34,11 @@ public class SectionTakenSubjects {
         this.sectionId = sectionId;
     }
 
-    public int getSubjectId() {
+    public String getSubjectId() {
         return subjectId;
     }
 
-    public void setSubjectId(int subjectId) {
+    public void setSubjectId(String subjectId) {
         this.subjectId = subjectId;
     }
 }

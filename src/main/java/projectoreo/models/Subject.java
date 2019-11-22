@@ -66,20 +66,6 @@ public class Subject {
 
   @Override
   public String toString() {
-    return "Subject{"
-        + "id='"
-        + id
-        + '\''
-        + ", name='"
-        + name
-        + '\''
-        + ", desc='"
-        + desc
-        + '\''
-        + ", type="
-        + type
-        + ", sectionsUsed="
-        + sectionsUsed
-        + '}';
+    return name;
   }
 }

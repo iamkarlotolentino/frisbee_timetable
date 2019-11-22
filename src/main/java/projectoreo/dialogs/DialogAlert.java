@@ -2,7 +2,6 @@ package projectoreo.dialogs;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.image.ImageView;
 
 import java.util.Optional;
 
@@ -35,8 +34,17 @@ public class DialogAlert {
     deleteAlert.setTitle("Critical Warning!");
     deleteAlert.setHeaderText("Warning! Please think of your actions wisely!");
     deleteAlert.setContentText(
-            "You are about to delete all the data. "
-                    + "By committing this, there won't be any backup to recover this action.");
+        "You are about to delete all the data. "
+            + "By committing this, there won't be any backup to recover this action.");
     return deleteAlert.showAndWait();
+  }
+
+  public static void requestSelectedNotUpdatedWarning() {
+    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+    infoAlert.setTitle("Information");
+    infoAlert.setHeaderText("Newly created item cannot be deleted/edited.");
+    infoAlert.setContentText(
+            "Before you can do that, please force-refresh first to update to the latest data.");
+    infoAlert.showAndWait();
   }
 }

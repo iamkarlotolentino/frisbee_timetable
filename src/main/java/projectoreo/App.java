@@ -33,7 +33,7 @@ public class App extends Application {
     this.primaryStage.setMinWidth(1000d);
     this.primaryStage
         .getIcons()
-        .add(new Image("https://image.flaticon.com/icons/png/128/1160/1160519.png"));
+        .add(new Image("https://image.flaticon.com/icons/png/128/1907/1907572.png"));
 
     ActivityLoader intent = new ActivityLoader();
     intent.setLocationPath("views/front.fxml");

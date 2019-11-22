@@ -13,6 +13,8 @@ public class DataCollectionController implements Controller {
 
   private StudentTabController studentTabController;
   private SubjectTabController subjectTabController;
+  private SectionTabController sectionTabController;
+  private RoomTabController roomTabController;
 
   public DataCollectionController() {
     contentPane = new TabPane();
@@ -29,7 +31,7 @@ public class DataCollectionController implements Controller {
         finish -> {
           studentTabController = (StudentTabController) studentTabIntent.getActivityController();
           ControllersDispatcher.getInstance()
-                  .store(StudentTabController.class, studentTabController);
+              .store(StudentTabController.class, studentTabController);
 
           Tab studentTab = new Tab("  Student  ");
           clipAllSides(studentTabController.getStudentTab());
@@ -53,11 +55,41 @@ public class DataCollectionController implements Controller {
           contentPane.getTabs().add(subjectTab);
         });
     subjectTabIntent.start();
+
+    ActivityLoader sectionTabIntent = new ActivityLoader();
+    sectionTabIntent.setLocationPath("views/section_tab.fxml");
+    sectionTabIntent.setActivityController(new SectionTabController());
+    sectionTabIntent.onFinish(
+        finish -> {
+          sectionTabController = (SectionTabController) sectionTabIntent.getActivityController();
+          ControllersDispatcher.getInstance()
+              .store(SectionTabController.class, sectionTabController);
+
+          Tab sectionTab = new Tab("  Section  ");
+          clipAllSides(sectionTabController.getSectionTab());
+          sectionTab.setContent(new AnchorPane(sectionTabController.getSectionTab()));
+          contentPane.getTabs().add(sectionTab);
+        });
+    sectionTabIntent.start();
+
+    ActivityLoader roomTabIntent = new ActivityLoader();
+    roomTabIntent.setLocationPath("views/room_tab.fxml");
+    roomTabIntent.setActivityController(new RoomTabController());
+    roomTabIntent.onFinish(
+        finish -> {
+          roomTabController = (RoomTabController) roomTabIntent.getActivityController();
+          ControllersDispatcher.getInstance().store(RoomTabController.class, roomTabController);
+
+          Tab roomTab = new Tab("  Room  ");
+          clipAllSides(roomTabController.getRoomTab());
+          roomTab.setContent(new AnchorPane(roomTabController.getRoomTab()));
+          contentPane.getTabs().add(roomTab);
+        });
+    roomTabIntent.start();
   }
 
   @Override
-  public void listeners() {
-  }
+  public void listeners() {}
 
   private void clipAllSides(AnchorPane pane) {
     AnchorPane.setTopAnchor(pane, 0d);

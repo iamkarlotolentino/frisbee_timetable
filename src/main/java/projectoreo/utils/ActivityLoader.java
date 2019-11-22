@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
 public class ActivityLoader {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ActivityLoader.class);
@@ -33,16 +35,15 @@ public class ActivityLoader {
     taskLoader =
         new Task<Parent>() {
           @Override
-          protected Parent call() throws Exception {
-            return activityViewLoader.load();
+          protected Parent call() {
+            try {
+              return activityViewLoader.load();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+            return null;
           }
         };
-
-    // Failed: If FXML file not loaded.
-    taskLoader.setOnFailed(
-        event -> {
-          LOGGER.error("Failed to load FXML file. \n" + event.toString());
-        });
   }
 
   public Parent getActivity() {

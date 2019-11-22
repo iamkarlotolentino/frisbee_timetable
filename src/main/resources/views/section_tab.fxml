@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane fx:id="contentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="525.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <TextField fx:id="searchField" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="405.0"
+                   promptText="Search data under any fields" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+        <Button fx:id="search" layoutX="370.0" layoutY="25.0" mnemonicParsing="false" prefHeight="25.0"
+                prefWidth="100.0" text="Search" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="0.0"/>
+        <TableView fx:id="tableView" layoutX="40.0" layoutY="74.0" prefHeight="447.0" prefWidth="481.0"
+                   tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="450.0" AnchorPane.topAnchor="30.0">
+            <columns>
+                <TableColumn fx:id="idColumn" maxWidth="3000.0" prefWidth="75.0" text="ID"/>
+                <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Name"/>
+                <TableColumn fx:id="studentsCountColumn" prefWidth="75.0" text="No. of Students"/>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+        </TableView>
+        <VBox layoutX="525.0" layoutY="-13.0" prefHeight="200.0" prefWidth="435.0" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <GridPane hgap="2.0" style="-fx-border-color: #cecece;">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <children>
+                        <Button fx:id="createNew" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                                text="Create new section.."/>
+                        <Button fx:id="deleteSelected" disable="true" maxWidth="1.7976931348623157E308"
+                                mnemonicParsing="false" text="Delete selected section" GridPane.columnIndex="1"/>
+                        <Button fx:id="editSelected" disable="true" maxWidth="1.7976931348623157E308"
+                                mnemonicParsing="false" text="Edit selected section" GridPane.rowIndex="1"/>
+                        <Button fx:id="viewStudentsB" disable="true" layoutX="21.0" layoutY="24.0"
+                                maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="View students..."
+                                GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        <Button fx:id="manageSubjectsB" disable="true" layoutX="229.0" layoutY="54.0"
+                                maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Manage subjects..."
+                                GridPane.rowIndex="2"/>
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                </GridPane>
+                <Label style="-fx-background-color: #ECEFF1;" text="Main Controls" translateY="-120.0">
+                    <VBox.margin>
+                        <Insets left="10.0"/>
+                    </VBox.margin>
+                </Label>
+                <GridPane hgap="2.0" style="-fx-border-color: #cecece;">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <children>
+                        <Button fx:id="importFromCSV" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                                text="Import from CSV..."/>
+                        <Button fx:id="viewSummaryOfData" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                                text="View summary of data" GridPane.columnIndex="1"/>
+                        <Button fx:id="exportToCSV" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                                text="Export to CSV..." GridPane.rowIndex="1"/>
+                        <Button fx:id="deleteAllData" layoutX="248.0" layoutY="24.0" maxWidth="1.7976931348623157E308"
+                                mnemonicParsing="false" text="Delete all data.." GridPane.columnIndex="1"
+                                GridPane.rowIndex="1"/>
+                        <Button fx:id="refresh" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                                text="Force Refresh" GridPane.rowIndex="2"/>
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                </GridPane>
+                <Label style="-fx-background-color: #ECEFF1;" text="Management Tools" translateY="-120.0">
+                    <VBox.margin>
+                        <Insets left="10.0"/>
+                    </VBox.margin>
+                </Label>
+                <Label text="Guide:">
+                    <font>
+                        <Font name="System Bold" size="12.0"/>
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="2.0"/>
+                    </VBox.margin>
+                </Label>
+                <Label text="1. To access most of the Main Controls, make sure to select an item in the table.&#10;"/>
+                <Label text="2. Use Force Refresh for every action to maitain integrity in the current view."/>
+                <Label layoutX="10.0" layoutY="272.0"
+                       text="3. Ensure importing CSV data are valid, especially in such case when there's a&#10;    duplicating record. Hence, the program will reject the file."
+                       wrapText="true"/>
+            </children>
+        </VBox>
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+</AnchorPane>

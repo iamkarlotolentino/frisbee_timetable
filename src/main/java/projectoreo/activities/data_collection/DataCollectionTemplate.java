@@ -29,6 +29,7 @@ public class DataCollectionTemplate implements Initializable, Controller {
   @FXML protected Button exportToCSV;
   @FXML protected Button deleteAllData;
   @FXML protected Button refresh;
+
   @FXML private TableView tableView;
 
   @Override
@@ -38,7 +39,10 @@ public class DataCollectionTemplate implements Initializable, Controller {
   }
 
   @Override
-  public void setup() {
+  public void setup() {}
+
+  @Override
+  public void listeners() {
     // An event when there's no longer selected student item.
     // Thus, we need to disable the respective buttons.
     tableView
@@ -61,9 +65,6 @@ public class DataCollectionTemplate implements Initializable, Controller {
           }
         });
   }
-
-  @Override
-  public void listeners() {}
 
   public void setCurrentStatus(String status, boolean isWorking) {
     ((FrontController) ControllersDispatcher.getInstance().get(FrontController.class))
