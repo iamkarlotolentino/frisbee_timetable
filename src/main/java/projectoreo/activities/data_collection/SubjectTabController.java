@@ -9,8 +9,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import projectoreo.dialogs.DialogAlert;
-import projectoreo.dialogs.DialogType;
+import projectoreo.database.columns.SubjectColumn;
+import projectoreo.dialogs.utils.DialogAlert;
+import projectoreo.dialogs.utils.DialogType;
 import projectoreo.dialogs.NewSubjectDialog;
 import projectoreo.models.RoomType;
 import projectoreo.models.Subject;
@@ -30,6 +31,8 @@ public class SubjectTabController extends DataCollectionTemplate {
   @FXML private TableColumn<Subject, String> idColumn;
   @FXML private TableColumn<Subject, String> nameColumn;
   @FXML private TableColumn<Subject, String> typeColumn;
+  @FXML private TableColumn<Subject, String> unitsColumn;
+  @FXML private TableColumn<Subject, String> requiredHoursColumn;
   @FXML private TableColumn<Subject, String> sectionsUsedColumn;
 
   @Override
@@ -44,6 +47,8 @@ public class SubjectTabController extends DataCollectionTemplate {
     idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
     nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
     typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+    unitsColumn.setCellValueFactory(new PropertyValueFactory<>("units"));
+      requiredHoursColumn.setCellValueFactory(new PropertyValueFactory<>("requiredHours"));
     sectionsUsedColumn.setCellValueFactory(new PropertyValueFactory<>("sectionsUsed"));
   }
 
@@ -137,10 +142,11 @@ public class SubjectTabController extends DataCollectionTemplate {
               while (res.next()) {
                 subjectList.add(
                     new Subject(
-                        res.getString("subject_id"),
-                        res.getString("subject_name"),
-                        res.getString("desc"),
-                        new RoomType(res.getInt("type_id"), res.getString("room_type")),
+                            res.getString(SubjectColumn.SUBJECT_ID.get()),
+                        res.getString(SubjectColumn.NAME.get()),
+                        res.getInt(SubjectColumn.UNITS.get()),
+                        res.getInt(SubjectColumn.REQUIRED_HOURS.get()),
+                        new RoomType(res.getInt("type_id"), res.getString(6)),
                         res.getInt("total_count")));
               }
               res.close();

@@ -4,22 +4,20 @@ public class Subject {
 
   private String id;
   private String name;
-  private String desc;
+  private int requiredHours;
+  private int units;
   private RoomType type;
+
   private int sectionsUsed;
 
-  public Subject() {
-    this.id = "unspecified";
-    this.name = "unspecified";
-    this.desc = "unspecified";
-    this.type = new RoomType();
-    this.sectionsUsed = -1;
-  }
+  public Subject() {}
 
-  public Subject(String id, String name, String desc, RoomType type, int sectionsUsed) {
+  public Subject(
+      String id, String name, int requiredHours, int units, RoomType type, int sectionsUsed) {
     this.id = id;
     this.name = name;
-    this.desc = desc;
+    this.requiredHours = requiredHours;
+    this.units = units;
     this.type = type;
     this.sectionsUsed = sectionsUsed;
   }
@@ -40,12 +38,20 @@ public class Subject {
     this.name = name;
   }
 
-  public String getDesc() {
-    return desc;
+  public int getRequiredHours() {
+    return requiredHours;
   }
 
-  public void setDesc(String desc) {
-    this.desc = desc;
+  public void setRequiredHours(int requiredHours) {
+    this.requiredHours = requiredHours;
+  }
+
+  public int getUnits() {
+    return units;
+  }
+
+  public void setUnits(int units) {
+    this.units = units;
   }
 
   public RoomType getType() {

@@ -10,8 +10,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import projectoreo.dialogs.DialogAlert;
-import projectoreo.dialogs.DialogType;
+import projectoreo.dialogs.ManageTypeDialog;
+import projectoreo.dialogs.utils.DialogAlert;
+import projectoreo.dialogs.utils.DialogType;
 import projectoreo.dialogs.NewRoomDialog;
 import projectoreo.models.Room;
 
@@ -70,6 +71,7 @@ public class RoomTabController extends DataCollectionTemplate {
     createNew.setOnAction(click -> createNewRoom());
     editSelected.setOnAction(click -> editSelectedRoom());
     deleteSelected.setOnAction(click -> deleteSelectedRoom());
+    manageTypeB.setOnAction(click -> new ManageTypeDialog());
   }
 
   private void createNewRoom() {
@@ -142,7 +144,7 @@ public class RoomTabController extends DataCollectionTemplate {
                     new Room(
                         res.getInt("room_id"),
                         res.getString("name"),
-                        DB_MANAGER.getRoomTypeQueries().readById(res.getInt("type__fk"))));
+                        DB_MANAGER.getRoomTypeQueries().readById(res.getInt("type_id"))));
               }
               res.close();
             } catch (SQLException e) {

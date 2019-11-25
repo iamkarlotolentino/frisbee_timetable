@@ -1,4 +1,4 @@
-package projectoreo.dialogs;
+package projectoreo.dialogs.utils;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;

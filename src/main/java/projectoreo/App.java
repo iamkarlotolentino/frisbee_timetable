@@ -5,7 +5,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import projectoreo.activities.front.FrontController;
-import projectoreo.managers.DatabaseManager;
+import projectoreo.database.DatabaseManager;
+import projectoreo.database.columns.SectionColumn;
 import projectoreo.utils.ActivityLoader;
 import projectoreo.utils.ControllersDispatcher;
 
@@ -33,7 +34,7 @@ public class App extends Application {
     this.primaryStage.setMinWidth(1000d);
     this.primaryStage
         .getIcons()
-        .add(new Image("https://image.flaticon.com/icons/png/128/1907/1907572.png"));
+        .add(new Image("https://image.flaticon.com/icons/png/128/2258/2258789.png"));
 
     ActivityLoader intent = new ActivityLoader();
     intent.setLocationPath("views/front.fxml");

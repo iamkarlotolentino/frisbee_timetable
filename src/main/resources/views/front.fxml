@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #f1f2f6;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #f1f2f6;" xmlns="http://javafx.com/javafx/8.0.201" xmlns:fx="http://javafx.com/fxml/1">
     <top>
         <AnchorPane maxHeight="45.0" prefHeight="200.0" prefWidth="1044.0" style="-fx-background-color: #F5F5F5;" BorderPane.alignment="CENTER">
             <children>
@@ -31,24 +38,21 @@
    <center>
       <AnchorPane fx:id="welcomeInfoPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F5F5F5; -fx-border-color: #cfcfcf; -fx-border-width: 1 0 0 0;" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="65.0" layoutY="47.0" text="Automated Lecture-Course Timetabling System">
+            <Label layoutX="442.0" layoutY="89.0" text="Welcome!">
                <font>
-                  <Font name="System Bold" size="26.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="65.0" layoutY="85.0" text="Using Genetic Algorithm (Evolutionary Algo)">
-               <font>
-                  <Font name="System Italic" size="17.0" />
-               </font>
-            </Label>
+            <Label layoutX="274.0" layoutY="120.0" text="This software has been designed using genetic algorithm, and is powered by JavaFX.&#10;" />
+            <Label layoutX="410.0" layoutY="379.0" text="MIT License 1.0  | iamkarlotolentino" />
          </children>
       </AnchorPane>
    </center>
    <bottom>
       <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="200.0" style="-fx-border-color: #cfcfcf; -fx-border-width: 1 0 0 0;" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="currentStatus" text="Hello there" />
-            <ProgressIndicator fx:id="progress" visible="false" scaleX="0.75" scaleY="0.75" translateX="-10.0" />
+            <Label fx:id="currentStatus" />
+            <ProgressIndicator fx:id="progress" scaleX="0.75" scaleY="0.75" translateX="-10.0" visible="false" />
          </children>
          <padding>
             <Insets left="10.0" top="3.0" />

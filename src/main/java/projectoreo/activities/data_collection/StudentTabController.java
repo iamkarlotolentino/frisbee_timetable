@@ -16,9 +16,10 @@ import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import projectoreo.activities.front.FrontController;
-import projectoreo.dialogs.DialogAlert;
-import projectoreo.dialogs.DialogType;
+import projectoreo.database.columns.StudentColumn;
 import projectoreo.dialogs.NewStudentDialog;
+import projectoreo.dialogs.utils.DialogAlert;
+import projectoreo.dialogs.utils.DialogType;
 import projectoreo.models.Section;
 import projectoreo.models.Student;
 import projectoreo.utils.ControllersDispatcher;
@@ -131,25 +132,30 @@ public class StudentTabController extends DataCollectionTemplate {
         click -> {
           if (tableView.getSelectionModel().getSelectedIndex() > -1) {
             Optional<ButtonType> result = DialogAlert.requestDeleteSelectedConfirmation();
-            if (result.get() == ButtonType.OK) {
-              try {
-                // If did not pushed through
-                if (DB_MANAGER
-                        .getStudentQueries()
-                        .deleteById(tableView.getSelectionModel().getSelectedItem().getId())
-                    != 1) {
-                  DialogAlert.requestSelectedNotUpdatedWarning();
-                  setCurrentStatus(
-                      "Please use force-refresh first to delete the new item (selected item)",
-                      false);
-                } else {
-                  tableView.getItems().remove(tableView.getSelectionModel().getSelectedIndex());
-                  setCurrentStatus(STUDENT_SELECTED_DELETE, false);
-                }
-              } catch (SQLException e) {
-                e.printStackTrace();
-              }
-            }
+            result.ifPresent(
+                selectedB -> {
+                  if (selectedB == ButtonType.OK) {
+                    try {
+                      // If did not pushed through
+                      if (DB_MANAGER
+                              .getStudentQueries()
+                              .deleteById(tableView.getSelectionModel().getSelectedItem().getId())
+                          != 1) {
+                        DialogAlert.requestSelectedNotUpdatedWarning();
+                        setCurrentStatus(
+                            "Please use force-refresh first to delete the new item (selected item)",
+                            false);
+                      } else {
+                        tableView
+                            .getItems()
+                            .remove(tableView.getSelectionModel().getSelectedIndex());
+                        setCurrentStatus(STUDENT_SELECTED_DELETE, false);
+                      }
+                    } catch (SQLException e) {
+                      e.printStackTrace();
+                    }
+                  }
+                });
           }
         });
     importFromCSV.setOnAction(
@@ -219,11 +225,13 @@ public class StudentTabController extends DataCollectionTemplate {
               while (res.next()) {
                 studentList.add(
                     new Student(
-                        res.getString("student_id"),
-                        res.getString("first_name"),
-                        res.getString("middle_name"),
-                        res.getString("last_name"),
-                        DB_MANAGER.getSectionQueries().readSectionById(res.getInt("section__fk"))));
+                        res.getString(StudentColumn.STUDENT_ID.get()),
+                        res.getString(StudentColumn.FIRST_NAME.get()),
+                        res.getString(StudentColumn.MIDDLE_NAME.get()),
+                        res.getString(StudentColumn.LAST_NAME.get()),
+                        DB_MANAGER
+                            .getSectionQueries()
+                            .readSectionById(res.getInt(StudentColumn.SECTION_ID.get()))));
               }
               res.close();
             } catch (SQLException e) {

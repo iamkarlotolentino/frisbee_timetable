@@ -5,7 +5,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import projectoreo.managers.DatabaseManager;
+import projectoreo.database.DatabaseManager;
+import projectoreo.dialogs.utils.DialogType;
 import projectoreo.models.Section;
 import projectoreo.models.Student;
 
@@ -30,13 +31,13 @@ public class NewStudentDialog {
       buttonText = "Update";
     }
 
-    ButtonType controlButton = new ButtonType(buttonText, ButtonBar.ButtonData.OK_DONE);
-    dialog.getDialogPane().getButtonTypes().addAll(controlButton, ButtonType.CANCEL);
+    ButtonType doneB = new ButtonType(buttonText, ButtonBar.ButtonData.OK_DONE);
+    dialog.getDialogPane().getButtonTypes().addAll(doneB, ButtonType.CANCEL);
 
     GridPane grid = new GridPane();
     grid.setHgap(10d);
     grid.setVgap(10d);
-    grid.setPadding(new Insets(20, 10, 10, 10));
+    grid.setPadding(new Insets(10));
 
     TextField studentId = new TextField();
     TextField firstName = new TextField();
@@ -55,10 +56,10 @@ public class NewStudentDialog {
                 new Section(
                     res.getInt("section_id"), res.getString("name"), res.getInt("students_count")));
       }
+      assignedSection.setValue(assignedSection.getItems().get(0));
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    assignedSection.setValue(assignedSection.getItems().get(0));
 
     // Initialization if there is a passed subject data
     if (student != null) {
@@ -81,7 +82,7 @@ public class NewStudentDialog {
     grid.add(assignedSection, 1, 4);
 
     // Disable button for validation process first
-    Node okButton = dialog.getDialogPane().lookupButton(controlButton);
+    Node okButton = dialog.getDialogPane().lookupButton(doneB);
     okButton.setDisable(true);
 
     // Validation
@@ -119,7 +120,7 @@ public class NewStudentDialog {
     // Storing information gathered
     dialog.setResultConverter(
         dialogButton -> {
-          if (dialogButton == controlButton)
+          if (dialogButton == doneB)
             return new Student(
                 studentId.getText(),
                 firstName.getText(),

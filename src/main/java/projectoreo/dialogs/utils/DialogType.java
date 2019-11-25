@@ -1,4 +1,4 @@
-package projectoreo.dialogs;
+package projectoreo.dialogs.utils;
 
 public enum DialogType {
     CREATE,

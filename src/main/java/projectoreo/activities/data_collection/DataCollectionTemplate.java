@@ -7,7 +7,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import projectoreo.activities.front.FrontController;
-import projectoreo.managers.DatabaseManager;
+import projectoreo.database.DatabaseManager;
 import projectoreo.utils.Controller;
 import projectoreo.utils.ControllersDispatcher;
 

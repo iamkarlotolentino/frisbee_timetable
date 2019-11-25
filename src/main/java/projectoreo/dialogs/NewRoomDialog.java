@@ -1,19 +1,24 @@
 package projectoreo.dialogs;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import projectoreo.managers.DatabaseManager;
+import projectoreo.database.DatabaseManager;
+import projectoreo.dialogs.utils.DialogType;
 import projectoreo.models.Room;
 import projectoreo.models.RoomType;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Optional;
 
 public class NewRoomDialog {
+
+  private Task<ObservableList<RoomType>> roomTypeListTask;
 
   private Dialog dialog;
 
@@ -57,18 +62,26 @@ public class NewRoomDialog {
         .addListener(
             (observable, oldValue, newValue) -> _doneB.setDisable((nameTF.getText().isEmpty())));
 
-    // Gathering the room types - assigned to the room type selection
-    // TODO: Separate the insertion of data in another thread
-    try {
-      DatabaseManager DB_MANAGER = DatabaseManager.getInstance();
-      ResultSet res = DB_MANAGER.getRoomTypeQueries().readAll();
-      while (res.next()) {
-        roomTypeCB.getItems().add(new RoomType(res.getInt("type_id"), res.getString("name")));
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    roomTypeCB.setValue(roomTypeCB.getItems().get(0));
+    // Querying to the database while in the background thread
+    roomTypeListTask =
+        new Task<ObservableList<RoomType>>() {
+          @Override
+          protected ObservableList<RoomType> call() throws Exception {
+            ObservableList<RoomType> rooms = FXCollections.observableArrayList();
+            ResultSet res = DatabaseManager.getInstance().getRoomTypeQueries().readAll();
+            while (res.next()) {
+              rooms.add(new RoomType(res.getInt(1), res.getString(2)));
+            }
+            return rooms;
+          }
+        };
+    roomTypeListTask.setOnSucceeded(
+        succeeded -> {
+          // Show the result to the view
+          roomTypeCB.setItems(roomTypeListTask.getValue());
+          roomTypeCB.setValue(roomTypeCB.getItems().get(0));
+        });
+    roomTypeListTask.run();
 
     // Adding the components to the layout
     grid.add(new Label("Room Name"), 0, 0);

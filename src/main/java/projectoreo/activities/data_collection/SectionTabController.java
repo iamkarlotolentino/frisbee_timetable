@@ -8,6 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import projectoreo.dialogs.*;
+import projectoreo.dialogs.utils.DialogAlert;
+import projectoreo.dialogs.utils.DialogType;
 import projectoreo.models.Section;
 import projectoreo.utils.ActivityLoader;
 

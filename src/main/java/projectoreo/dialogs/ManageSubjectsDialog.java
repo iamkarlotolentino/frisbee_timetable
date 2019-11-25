@@ -8,8 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import projectoreo.managers.DatabaseManager;
-import projectoreo.models.SectionTakenSubjects;
+import projectoreo.database.DatabaseManager;
+import projectoreo.models.TakenSubjects;
 import projectoreo.models.Subject;
 import projectoreo.utils.Controller;
 
@@ -89,7 +89,7 @@ public class ManageSubjectsDialog implements Initializable, Controller {
             ResultSet res = DB_MANAGER.getTakenSubjectsQueries().readCurrentSubjects(sectionId);
             while (res.next()) {
               currentSubjects.add(
-                  DB_MANAGER.getSubjectQueries().readById(res.getString("subject__fk")));
+                  DB_MANAGER.getSubjectQueries().readById(res.getString("subject_id")));
             }
             return currentSubjects;
           }
@@ -107,31 +107,48 @@ public class ManageSubjectsDialog implements Initializable, Controller {
 
   @Override
   public void listeners() {
-    popB.setOnAction(
-        click -> {
-          if (currentSubjectsLV.getSelectionModel().getSelectedIndex() > -1) {
-            pop(currentSubjectsLV.getSelectionModel().getSelectedItem().getId());
-            availableSubjectsLV
-                .getItems()
-                .add(currentSubjectsLV.getSelectionModel().getSelectedItem());
-            currentSubjectsLV
-                .getItems()
-                .remove(currentSubjectsLV.getSelectionModel().getSelectedIndex());
-          }
-        });
+    popB.setOnAction(click -> popEvent());
+    pushB.setOnAction(click -> pushEvent());
+    popAllB.setOnAction(click -> popAllEvent());
+    pushAllB.setOnAction(click -> pushAllEvent());
+  }
 
-    pushB.setOnAction(
-        click -> {
-          if (availableSubjectsLV.getSelectionModel().getSelectedIndex() > -1) {
-            push(availableSubjectsLV.getSelectionModel().getSelectedItem().getId());
-            currentSubjectsLV
-                    .getItems()
-                    .add(availableSubjectsLV.getSelectionModel().getSelectedItem());
-            availableSubjectsLV
-                    .getItems()
-                    .remove(availableSubjectsLV.getSelectionModel().getSelectedIndex());
-          }
-        });
+  private void pushAllEvent() {
+    currentSubjectsLV
+        .getItems()
+        .forEach(
+            subject -> {
+              push(subject.getId());
+              availableSubjectsLV.getItems().add(subject);
+            });
+  }
+
+  private void popAllEvent() {
+    availableSubjectsLV
+        .getItems()
+        .forEach(
+            subject -> {
+              pop(subject.getId());
+            });
+    availableSubjectsLV.getItems().removeAll();
+  }
+
+  private void pushEvent() {
+    if (availableSubjectsLV.getSelectionModel().getSelectedIndex() > -1) {
+      push(availableSubjectsLV.getSelectionModel().getSelectedItem().getId());
+      currentSubjectsLV.getItems().add(availableSubjectsLV.getSelectionModel().getSelectedItem());
+      availableSubjectsLV
+          .getItems()
+          .remove(availableSubjectsLV.getSelectionModel().getSelectedIndex());
+    }
+  }
+
+  private void popEvent() {
+    if (currentSubjectsLV.getSelectionModel().getSelectedIndex() > -1) {
+      pop(currentSubjectsLV.getSelectionModel().getSelectedItem().getId());
+      availableSubjectsLV.getItems().add(currentSubjectsLV.getSelectionModel().getSelectedItem());
+      currentSubjectsLV.getItems().remove(currentSubjectsLV.getSelectionModel().getSelectedIndex());
+    }
   }
 
   private void pop(String subjectId) {
@@ -146,7 +163,7 @@ public class ManageSubjectsDialog implements Initializable, Controller {
     try {
       DB_MANAGER
           .getTakenSubjectsQueries()
-          .create(new SectionTakenSubjects(0, sectionId, subjectId));
+          .create(new TakenSubjects(0, sectionId, subjectId));
     } catch (SQLException e) {
       e.printStackTrace();
     }

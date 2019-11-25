@@ -1,18 +1,18 @@
 package projectoreo.models;
 
-public class SectionTakenSubjects {
+public class TakenSubjects {
 
     private int id;
     private int sectionId;
     private String subjectId;
 
-    public SectionTakenSubjects() {
+    public TakenSubjects() {
         this.id = -1;
         this.sectionId = -1;
         this.subjectId = "";
     }
 
-    public SectionTakenSubjects(int id, int sectionId, String subjectId) {
+    public TakenSubjects(int id, int sectionId, String subjectId) {
         this.id = id;
         this.sectionId = sectionId;
         this.subjectId = subjectId;

@@ -5,7 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import projectoreo.managers.DatabaseManager;
+import projectoreo.database.DatabaseManager;
 import projectoreo.models.Section;
 import projectoreo.models.Student;
 
@@ -36,7 +36,6 @@ public class ViewStudentsDialog {
 
     searchTF.setPromptText("Filter student list");
     studentLV.setOrientation(Orientation.VERTICAL);
-    //    studentLV.setPrefSize(150, 250);
     try {
       ResultSet res =
           DatabaseManager.getInstance().getStudentQueries().readBySection(section.getId());
